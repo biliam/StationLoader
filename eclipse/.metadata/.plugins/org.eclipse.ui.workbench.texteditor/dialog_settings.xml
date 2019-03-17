@@ -2,25 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="toggleFullscreen" key="selection"/>
+		<item value="drawScreen" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="drawScreen"/>
 			<item value="toggleFullscreen"/>
 			<item value="fullScreen"/>
 			<item value="_I"/>
 			<item value="I"/>
-			<item value="drawScreen"/>
 			<item value="EntityRender"/>
 			<item value="theMinecraft"/>
 			<item value="annotation"/>
-			<item value="startGame"/>
-			<item value="getMinecraftDir"/>
-			<item value="startServer"/>
-			<item value="version"/>
-			<item value="Beta"/>
 		</list>
 		<list key="replacehistory">
 		</list>

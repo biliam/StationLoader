@@ -31,9 +31,4 @@ public class StationLoader {
 	private final void preInit(MCPreInitializationEvent event) {
 		PROXY.preInit(event);
 	}
-	
-	@EventHandler
-	private final void postInit(MCPostInitializationEvent event) {
-		PROXY.postInit();
-	}
 }

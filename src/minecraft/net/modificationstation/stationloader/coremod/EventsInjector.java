@@ -40,6 +40,7 @@ public class EventsInjector {
     EventsInjector() {
         final List<Consumer<ClassNode>> list = new ArrayList<Consumer<ClassNode>>();
         list.add(this::patchGuiScreen);
+        list.add(this::patchEntityRenderer);
         patch = list.toArray(new Consumer[]{});
     }
     
@@ -82,6 +83,39 @@ public class EventsInjector {
                 method.instructions.insertBefore(returnNode, ClassesInfo.GuiScreen.DrawScreen);
             }
         }
+    }
+    
+    /**
+     * Function that patches given EntityRenderer's ClassNode
+     * @param classNode
+     */
+    public void patchEntityRenderer(ClassNode classNode) {
+        Iterator<MethodNode> methodIt = classNode.methods.iterator();
+        for (MethodNode method = methodIt.next();methodIt.hasNext();method = methodIt.next())
+            if (method.name.equals("updateCameraAndRender") && method.desc.equals("(F)V"))
+                for (int i = 7; i < method.instructions.size();i++)
+                    if (method.instructions.get(i).getOpcode() == INVOKEVIRTUAL
+                    && ((MethodInsnNode)method.instructions.get(i)).owner.equals("net/minecraft/src/GuiScreen")
+                    && ((MethodInsnNode)method.instructions.get(i)).name.equals("drawScreen")
+                    && ((MethodInsnNode)method.instructions.get(i)).desc.equals("(IIF)V")
+                    && !((MethodInsnNode)method.instructions.get(i)).itf) {
+                        int j = i - 3;
+                        while (method.instructions.get(j).getOpcode() != ALOAD
+                                || ((VarInsnNode)method.instructions.get(j)).var != 0
+                                || method.instructions.get(j + 1).getOpcode() != GETFIELD
+                                || !((FieldInsnNode)method.instructions.get(j + 1)).owner.equals("net/minecraft/src/EntityRenderer")
+                                || !((FieldInsnNode)method.instructions.get(j + 1)).name.equals("mc")
+                                || !((FieldInsnNode)method.instructions.get(j + 1)).desc.equals("Lnet/minecraft/client/Minecraft;")
+                                || method.instructions.get(j + 2).getOpcode() != GETFIELD
+                                || !((FieldInsnNode)method.instructions.get(j + 2)).owner.equals("net/minecraft/client/Minecraft")
+                                || !((FieldInsnNode)method.instructions.get(j + 2)).name.equals("currentScreen")
+                                || !((FieldInsnNode)method.instructions.get(j + 2)).desc.equals("Lnet/minecraft/src/GuiScreen;"))
+                            j--;
+                        AbstractInsnNode drawScreen = method.instructions.get(i);
+                        method.instructions.insertBefore(method.instructions.get(j), ClassesInfo.EntityRenderer.DrawScreen_before);
+                        method.instructions.insert(drawScreen, ClassesInfo.EntityRenderer.DrawScreen);
+                        i+=16;
+                    }
     }
     
     /**
@@ -155,6 +189,41 @@ public class EventsInjector {
                 PostGuiScreenInit.add(new MethodInsnNode(INVOKEINTERFACE, "net/modificationstation/stationloader/events/client/gui/guiscreen/PostGuiScreenInit", "postInitGuiScreen", "(Lnet/minecraft/src/GuiScreen;)V", true));
                 
                 GuiScreenInit.add(GuiScreenInit_pass);
+            }
+        }
+        
+        /**
+         * Class Info for EntityRenderer
+         * 
+         * @author ABLPHA
+         *
+         */
+        static class EntityRenderer {
+            static final InsnList DrawScreen_before = new InsnList();
+            static final InsnList DrawScreen = new InsnList();
+            
+            /**
+             * Initializing patch instructions
+             */
+            
+            static {
+                LabelNode DrawScreen_pass = new LabelNode();
+                addEvent(DrawScreen_before, "net/modificationstation/stationloader/events/client/gui/guiscreen/DrawScreen");
+                DrawScreen_before.add(new VarInsnNode(ALOAD, 0));
+                DrawScreen_before.add(new FieldInsnNode(GETFIELD, "net/minecraft/src/EntityRenderer", "mc", "Lnet/minecraft/client/Minecraft;"));
+                DrawScreen_before.add(new FieldInsnNode(GETFIELD, "net/minecraft/client/Minecraft", "currentScreen", "Lnet/minecraft/src/GuiScreen;"));
+                DrawScreen_before.add(new VarInsnNode(ILOAD, 6));
+                DrawScreen_before.add(new VarInsnNode(ILOAD, 7));
+                DrawScreen_before.add(new VarInsnNode(FLOAD, 1));
+                DrawScreen_before.add(new VarInsnNode(ALOAD, 0));
+                DrawScreen_before.add(new FieldInsnNode(GETFIELD, "net/minecraft/src/EntityRenderer", "mc", "Lnet/minecraft/client/Minecraft;"));
+                DrawScreen_before.add(new FieldInsnNode(GETFIELD, "net/minecraft/client/Minecraft", "currentScreen", "Lnet/minecraft/src/GuiScreen;"));
+                DrawScreen_before.add(new MethodInsnNode(INVOKEVIRTUAL, "java/lang/Object", "getClass", "()Ljava/lang/Class;", false));
+                DrawScreen_before.add(new MethodInsnNode(INVOKEVIRTUAL, "java/lang/Class", "getSimpleName", "()Ljava/lang/String;", false));
+                DrawScreen_before.add(new MethodInsnNode(INVOKEINTERFACE, "net/modificationstation/stationloader/events/client/gui/guiscreen/DrawScreen", "drawScreen", "(Lnet/minecraft/src/GuiScreen;IIFLjava/lang/String;)Z", true));
+                DrawScreen_before.add(new JumpInsnNode(IFEQ, DrawScreen_pass));
+                
+                DrawScreen.add(DrawScreen_pass);
             }
         }
     }

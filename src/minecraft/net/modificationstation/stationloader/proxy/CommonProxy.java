@@ -23,5 +23,4 @@ public class CommonProxy {
 	        logger.set(StationLoader.INSTANCE, event.getModLog());
 	    } catch (Exception e) {e.printStackTrace();}
 	}
-	public void postInit() {}
 }

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="net.modificationstation.stationloader.events.client.gui.MCGuiScreenDrawScreenEvent"/>
-<fullyQualifiedTypeName name="net.modificationstation.stationloader.events.client.gui.MCPreDisplayGuiScreenEvent"/>
 <fullyQualifiedTypeName name="net.modificationstation.stationloader.client.util.proxy.EntityRenderer"/>
 <fullyQualifiedTypeName name="net.modificationstation.stationloader.events.client.gui.MCDrawScreenEvent"/>
 <fullyQualifiedTypeName name="net.minecraft.src.GuiTexturePacks"/>
@@ -60,4 +58,6 @@
 <fullyQualifiedTypeName name="net.modificationstation.stationmodloader.util.Mod.Instance"/>
 <fullyQualifiedTypeName name="net.modificationstation.classloader.ILibraryProvider"/>
 <fullyQualifiedTypeName name="net.modificationstation.classloader.ICoreMod"/>
+<fullyQualifiedTypeName name="net.minecraft.src.GuiMultiplayer"/>
+<fullyQualifiedTypeName name="net.modificationstation.stationloader.coremod.EventsInjector.ClassesInfo.EntityRenderer"/>
 </qualifiedTypeNameHistroy>

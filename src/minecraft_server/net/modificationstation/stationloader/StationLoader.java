@@ -11,13 +11,13 @@ import net.modificationstation.stationloader.events.Event;
 import net.modificationstation.stationloader.util.Mod;
 
 public class StationLoader {
-	public static void startEvent(Event event){
+	public static void startEvent(Event event) {
 		for (Iterator<Class<?>> mods = loadedMods.iterator();mods.hasNext();){
 			Class<?> mod = mods.next();
 			try {getEventHandlerFor(mod, event).invoke(null, event);} catch (Exception e) {e.printStackTrace();}
 		}
 	}
-	public static boolean addMod(Class<?> mod) throws InstantiationException, IllegalAccessException{
+	public static boolean addMod(Class<?> mod) {
 		if(!loadedMods.contains(mod)){
 			loadedMods.add(mod);
 			return true;
