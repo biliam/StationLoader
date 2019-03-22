@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.GuiMainMenu;
-import net.minecraft.src.GuiMultiplayer;
 import net.minecraft.src.GuiScreen;
 import net.minecraft.src.GuiSmallButton;
 import net.minecraft.src.GuiTexturePacks;
@@ -32,11 +31,6 @@ import net.modificationstation.stationmodloader.util.Mod;
  *
  */
 public class GuiHandler implements DrawScreen, GuiScreenInit{
-	public GuiHandler() {
-		DrawScreen.EVENT.register(this::drawScreen);
-		GuiScreenInit.EVENT.register(this::initGuiScreen);
-	}
-
 	@Override
 	public boolean drawScreen(GuiScreen guiscreen, int x, int y, float partialTicks, String screenType) {
 		if (guiscreen instanceof GuiMainMenu && screenType.equals("GuiScreen")) {

@@ -134,8 +134,8 @@ public class ClassLoaderReplacer
 
     private void setupHome(File minecraftHome)
     {
-        FMLInjectionData.build(minecraftHome, classLoader);
-        Log.info("Forge Mod Loader version %s.%s.%s.%s for Minecraft client:%s, server:%s loading", FMLInjectionData.major, FMLInjectionData.minor, FMLInjectionData.rev, FMLInjectionData.build, FMLInjectionData.mccversion, FMLInjectionData.mcsversion);
+        //FMLInjectionData.build(minecraftHome, classLoader);
+        //Log.info("Forge Mod Loader version %s.%s.%s.%s for Minecraft client:%s, server:%s loading", FMLInjectionData.major, FMLInjectionData.minor, FMLInjectionData.rev, FMLInjectionData.build, FMLInjectionData.mccversion, FMLInjectionData.mcsversion);
 
         try
         {

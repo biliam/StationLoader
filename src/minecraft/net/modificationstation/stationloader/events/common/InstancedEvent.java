@@ -20,6 +20,12 @@ public class InstancedEvent<T> extends Event<T> {
 		this.type = type;
 		this.eventFunc = eventFunc;
 		update();
+		EVENTS = Arrays.copyOf(EVENTS, EVENTS.length + 1);
+		EVENTS[EVENTS.length - 1] = this;
+	}
+	
+	public Class<T> getType() {
+	    return type;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -45,4 +51,6 @@ public class InstancedEvent<T> extends Event<T> {
 		}
   		update();
 	}
+	@SuppressWarnings("rawtypes")
+    public static InstancedEvent EVENTS[] = new InstancedEvent[0];
 }

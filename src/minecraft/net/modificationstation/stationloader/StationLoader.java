@@ -2,8 +2,8 @@ package net.modificationstation.stationloader;
 
 import java.util.logging.Logger;
 
+import net.modificationstation.classloader.ClassLoadingManager;
 import net.modificationstation.stationloader.proxy.CommonProxy;
-import net.modificationstation.stationmodloader.events.MCPostInitializationEvent;
 import net.modificationstation.stationmodloader.events.MCPreInitializationEvent;
 import net.modificationstation.stationmodloader.util.Mod;
 import net.modificationstation.stationmodloader.util.Mod.EventHandler;
@@ -29,6 +29,8 @@ public class StationLoader {
 	
 	@EventHandler
 	private final void preInit(MCPreInitializationEvent event) {
+	    System.out.println("precall");
+	    ClassLoadingManager.init();
 		PROXY.preInit(event);
 	}
 }

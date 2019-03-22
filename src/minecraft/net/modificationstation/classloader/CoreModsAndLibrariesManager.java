@@ -222,19 +222,13 @@ public class CoreModsAndLibrariesManager
             data.put("coremodLocation", pluginLocations.get(plugin));
             plugin.setData(data);
             downloadMonitor.updateProgressString("Coremod plugin %s run successfully", plugin.getClass().getSimpleName());
-
-            String modContainer = plugin.getModContainerClass();
-            if (modContainer != null)
-            {
-                FMLInjectionData.containers.add(modContainer);
-            }
         }
         try
         {
             downloadMonitor.updateProgressString("Validating minecraft");
             Class<?> loaderClazz = Class.forName("cpw.mods.fml.common.Loader", true, actualClassLoader);
             Method m = loaderClazz.getMethod("injectData", Object[].class);
-            m.invoke(null, (Object)FMLInjectionData.data());
+            //m.invoke(null, (Object)FMLInjectionData.data());
             m = loaderClazz.getMethod("instance");
             m.invoke(null);
             downloadMonitor.updateProgressString("Minecraft validated, launching...");

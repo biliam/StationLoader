@@ -1,6 +1,6 @@
 package net.modificationstation.stationloader.proxy;
-import net.minecraft.client.Minecraft;
 import net.modificationstation.stationloader.client.gui.GuiHandler;
+import net.modificationstation.stationloader.events.common.EventsManager;
 import net.modificationstation.stationmodloader.events.MCPreInitializationEvent;
 
 /**
@@ -12,7 +12,7 @@ import net.modificationstation.stationmodloader.events.MCPreInitializationEvent;
 public class ClientProxy extends CommonProxy{
 	@Override
 	public void preInit(MCPreInitializationEvent event) {
-		new GuiHandler();
+		EventsManager.register(new GuiHandler());
 		super.preInit(event);
 	}
 }
