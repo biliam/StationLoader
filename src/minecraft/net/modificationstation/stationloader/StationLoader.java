@@ -29,8 +29,6 @@ public class StationLoader {
 	
 	@EventHandler
 	private final void preInit(MCPreInitializationEvent event) {
-	    System.out.println("precall");
-	    ClassLoadingManager.init();
 		PROXY.preInit(event);
 	}
 }
