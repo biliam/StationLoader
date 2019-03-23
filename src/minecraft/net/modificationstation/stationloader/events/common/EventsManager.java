@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Events manager for easier and faster events control
  * 
- * @author ABLPHA
+ * @author mine_diver
  *
  */
 public class EventsManager {
