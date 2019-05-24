@@ -12,19 +12,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import net.modificationstation.stationloader.coremod.EventsInjectorTransformer;
-import net.modificationstation.stationloader.coremod.SideTransformer;
-
 public class MCClassLoader extends URLClassLoader
 {
     private static String[] excludedPackages = {
         //"java.", "sun.", "javax.",
-        "net.modificationstation.classloader."//, "net.minecraftforge.classloading."
+        "net.modificationstation.classloader."
     };
 
     private static String[] transformerExclusions =
     {
-        "org.objectweb.asm."//, "com.google.common.", "cpw.mods.fml."
+        "org.objectweb.asm."
     };
     private List<URL> sources;
     private ClassLoader parent;
@@ -39,10 +36,6 @@ public class MCClassLoader extends URLClassLoader
         this.parent = getClass().getClassLoader();
         this.cachedClasses = new HashMap<String,Class<?>>(1000);
         this.transformers = new ArrayList<IClassTransformer>(2);
-        
-        registerTransformer(EventsInjectorTransformer.class.getName());
-        registerTransformer(SideTransformer.class.getName());
-        
         ReflectionHelper.setPrivateValue(ClassLoader.class, null, this, "scl");
         Thread.currentThread().setContextClassLoader(this);
     }
@@ -133,10 +126,7 @@ public class MCClassLoader extends URLClassLoader
                 {
                     classStream.close();
                 }
-                catch (IOException e)
-                {
-                    // Swallow the close exception
-                }
+                catch (IOException e) {}
             }
         }
     }
@@ -178,7 +168,6 @@ public class MCClassLoader extends URLClassLoader
         }
         catch (Throwable t)
         {
-            /// HMMM
             return new byte[0];
         }
     }

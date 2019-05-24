@@ -9,6 +9,9 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import net.modificationstation.classloader.ClassLoadingManager;
+import net.modificationstation.classloader.Log;
+import net.modificationstation.classloader.LogFormatter;
 import net.modificationstation.classloader.ReflectionHelper;
 import net.modificationstation.stationmodloader.StationModLoader;
 import net.modificationstation.stationmodloader.util.Mod;
@@ -18,20 +21,12 @@ public class MCPreInitializationEvent extends ModEvent{
         specificModEvent = false;
     }
     public MCPreInitializationEvent(Object instance) {
+        specificModEvent = true;
         eventData = new Object[] {instance, instance.getClass().getAnnotation(Mod.class).name() == "" ? instance.getClass().getAnnotation(Mod.class).modid() : instance.getClass().getAnnotation(Mod.class).name()};
     }
     public Logger getModLog() {
         Logger logger = Logger.getLogger((String) eventData[1]);
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("Y.M.d_HH-mm-ss");
-            File root = new File(StationModLoader.getMinecraftDir() + "/logs/" + eventData[0].getClass().getAnnotation(Mod.class).modid());
-            root.mkdirs();
-            File file =  new File(root + "/" + (String) eventData[1] + " " + format.format(Calendar.getInstance().getTime()) + ".log");
-            file.createNewFile();
-            FileHandler fh = new FileHandler(file.toString());
-            fh.setFormatter(new SimpleFormatter());
-            logger.addHandler(fh);
-        } catch (Exception e) {e.printStackTrace();}
+        logger.setParent(Log.log.getLogger());
         return logger;
     }
     @Override
@@ -53,5 +48,5 @@ public class MCPreInitializationEvent extends ModEvent{
         return this;
     }
     private Object eventData[];
-    private boolean specificModEvent = true;
+    private final boolean specificModEvent;
 }

@@ -157,10 +157,10 @@
 		<item value="false" key="JarManifestWizardPage.SAVE_MANIFEST"/>
 		<item value="false" key="JarPackageWizardPage.EXPORT_OUTPUT_FOLDER"/>
 		<list key="JarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="C:\Users\ABLPHA\Desktop\mods\StationLoader\StationLoader beta 1.7.3\jars\mods\TestMod.jar"/>
 			<item value="C:\Users\ABLPHA\Desktop\mods\StationLoader\StationLoader beta 1.7.3\jars\mods\Alpha Dimension.jar"/>
 			<item value="C:\Users\ABLPHA\Desktop\mods\StationLoader\StationLoader beta 1.7.3\jars\mods\Mods and Texture Packs in game.jar"/>
 			<item value="C:\Users\ABLPHA\Desktop\mods\StationLoader\StationLoader beta 1.7.3\jars\mods\OldLogo.jar"/>
-			<item value="C:\Users\ABLPHA\Desktop\mods\StationLoader\StationLoader beta 1.7.3\jars\mods\TestMod.jar"/>
 			<item value="C:\Users\ABLPHA\Desktop\mods\StationLoader\StationLoader beta 1.7.3\tests\uhlambdas.jar"/>
 		</list>
 	</section>

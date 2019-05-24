@@ -9,6 +9,8 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import net.modificationstation.classloader.ClassLoadingManager;
+import net.modificationstation.classloader.MCClassLoader;
 import net.modificationstation.classloader.ReflectionHelper;
 import net.modificationstation.classloader.Side;
 import net.modificationstation.stationmodloader.StationModLoader;
@@ -16,30 +18,29 @@ import net.modificationstation.stationmodloader.util.Mod;
 import net.modificationstation.stationmodloader.util.Mod.SidedProxy;
 
 public class Loader {
-    private Loader() {
-    }
 	public void discoverAndLoadMods() {
         File modsFolder = null;
-        modsFolder = new File(StationModLoader.getMinecraftDir() + "/mods/");
-        for (int j = new File(StationModLoader.getMinecraftDir() + "/mods/b1.7.3").exists() ? 0 : 1; j < 2;j++) {
+        modsFolder = new File(ClassLoadingManager.INSTANCE.getMinecraftDir() + "/mods/");
+        for (int j = new File(ClassLoadingManager.INSTANCE.getMinecraftDir() + "/mods/b1.7.3").exists() ? 0 : 1; j < 2;j++) {
             if (!modsFolder.exists()) {modsFolder.mkdir();}
             File[] mods = modsFolder.listFiles();
             for (int i = 0; i < mods.length; i++){
                 try {
 			        File modFile = mods[i];
 	                StationModLoader.LOGGER.info("Found a file (" + modFile.getName() + ")");
-			        ClassLoader loader = URLClassLoader.newInstance(
+			        /*ClassLoader loader = URLClassLoader.newInstance(
 			                new URL[] { modFile.toURI().toURL() },
 			                getClass().getClassLoader()
-			            );
+			            );*/
+			        ((MCClassLoader)getClass().getClassLoader()).addURL(modFile.toURI().toURL());
 			        JarFile modJar = new JarFile(modFile);
 			        Enumeration<JarEntry> modClasses = modJar.entries();
 			        while (modClasses.hasMoreElements()) {
 			            JarEntry modClass = modClasses.nextElement();
 			            try {
-			                Class<?> clazz = Class.forName(modClass.getName().replace(".class", "").replace("/", "."), false, loader);
+			                Class<?> clazz = Class.forName(modClass.getName().replace(".class", "").replace("/", "."), false, getClass().getClassLoader());
 			                if (clazz.isAnnotationPresent(Mod.class)) {
-			                	loadMod(clazz, loader);
+			                	loadMod(clazz, getClass().getClassLoader());
 			                }
 			            } catch (Exception e) {}
 			        }
@@ -47,7 +48,7 @@ public class Loader {
                     StationModLoader.LOGGER.info("Completed adding \"" + modJar.getName() + "\"");
 		        } catch (Exception e) {};
             }
-            modsFolder = new File(StationModLoader.getMinecraftDir() + "/mods/b1.7.3");
+            modsFolder = new File(ClassLoadingManager.INSTANCE.getMinecraftDir() + "/mods/b1.7.3");
         }
 	}
     public void loadMod(Class<?> clazz, ClassLoader loader) throws InstantiationException, IllegalAccessException, NoSuchFieldException, SecurityException {
@@ -95,5 +96,6 @@ public class Loader {
         }
         StationModLoader.LOGGER.info("Loaded " + clazz.getAnnotation(Mod.class).name() + " mod");
     }
+    private Loader() {}
 	public final static Loader INSTANCE = new Loader();
 }

@@ -11,7 +11,7 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import net.modificationstation.classloader.ClassLoaderReplacer;
+import net.modificationstation.classloader.ClassLoadingManager;
 import net.modificationstation.classloader.IClassTransformer;
 import net.modificationstation.classloader.Side;
 
@@ -23,7 +23,7 @@ import net.modificationstation.classloader.Side;
  */
 public class SideTransformer implements IClassTransformer
 {
-    private static Side SIDE = ClassLoaderReplacer.side();
+    private static Side SIDE = ClassLoadingManager.INSTANCE.side;
     private static final boolean DEBUG = true;
     @SuppressWarnings("unchecked")
     @Override

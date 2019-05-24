@@ -11,7 +11,7 @@ import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
-final class LogFormatter extends Formatter
+public final class LogFormatter extends Formatter
 {
     static final String LINE_SEPARATOR = System.getProperty("line.separator");
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -11,7 +11,7 @@ import java.io.PrintStream;
 import java.net.URL;
 
 import net.minecraft.src.*;
-import net.modificationstation.classloader.ClassLoaderReplacer;
+import net.modificationstation.classloader.ClassLoadingManager;
 
 // Referenced classes of package net.minecraft.client:
 //            Minecraft
@@ -26,7 +26,7 @@ public class MinecraftApplet extends Applet
 
     public void init()
     {
-        ClassLoaderReplacer.appletEntry(this);
+        ClassLoadingManager.INSTANCE.init(this, false);
     }
     
     public void fmlInitReentry() {
@@ -81,7 +81,7 @@ public class MinecraftApplet extends Applet
 
     public void start()
     {
-        ClassLoaderReplacer.appletStart(this);
+        ClassLoadingManager.INSTANCE.init(this, true);
     }
     
     public void fmlStartReentry() {

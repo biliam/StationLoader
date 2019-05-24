@@ -7,7 +7,9 @@ package net.minecraft.client;
 import java.awt.*;
 import java.io.File;
 import net.minecraft.src.*;
-import net.modificationstation.classloader.ClassLoaderReplacer;
+import net.modificationstation.classloader.ClassLoadingManager;
+import net.modificationstation.classloader.MCClassLoader;
+import net.modificationstation.classloader.Side;
 import net.modificationstation.stationloader.events.client.gui.guiscreen.PostGuiScreenDisplay;
 import net.modificationstation.stationloader.events.client.gui.guiscreen.PreDisplayGuiScreen;
 import net.modificationstation.stationmodloader.StationModLoader;
@@ -1609,12 +1611,11 @@ public abstract class Minecraft
     /** v StationLoader v: we're hooking into classloading process here, so we can transform classes in runtime, redirect classes calls, etc*/
     public static void main(String args[])
     {
-        ClassLoaderReplacer.launchedFromMinecraft(args);
-    }
-    
-    public static void actualMain(String args[]) {
-    	/** v StationLoader v*/
-    	StationModLoader.init();
+        if (!(new Object() { }.getClass().getClassLoader() instanceof MCClassLoader)) {
+            ClassLoadingManager.INSTANCE.init(args, Side.CLIENT);
+        }
+        /** v StationLoader v*/
+        StationModLoader.init();
         /** ^ StationLoader ^*/
         String s = null;
         String s1 = null;
@@ -1629,6 +1630,9 @@ public abstract class Minecraft
             s1 = args[1];
         }
         func_6269_a(s, s1);
+    }
+    
+    public static void actualMain(String args[]) {
     }
 
     public static boolean isGuiEnabled()

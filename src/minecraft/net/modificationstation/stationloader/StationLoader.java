@@ -2,7 +2,6 @@ package net.modificationstation.stationloader;
 
 import java.util.logging.Logger;
 
-import net.modificationstation.classloader.ClassLoadingManager;
 import net.modificationstation.stationloader.proxy.CommonProxy;
 import net.modificationstation.stationmodloader.events.MCPreInitializationEvent;
 import net.modificationstation.stationmodloader.util.Mod;

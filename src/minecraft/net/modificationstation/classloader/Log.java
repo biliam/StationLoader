@@ -73,7 +73,7 @@ public class Log
         Logger globalLogger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
         globalLogger.setLevel(Level.OFF);
 
-        log.myLog = Logger.getLogger("ForgeModLoader");
+        log.myLog = Logger.getLogger("ClassLoader");
 
         Logger stdOut = Logger.getLogger("STDOUT");
         stdOut.setParent(log.myLog);
@@ -83,14 +83,14 @@ public class Log
 
         // Console handler captures the normal stderr before it gets replaced
         ConsoleHandler ch = new ConsoleHandler();
-        ch.setLevel(Level.parse(System.getProperty("fml.log.level","INFO")));
+        ch.setLevel(Level.parse(System.getProperty("modificationstation.classloader.log.level","INFO")));
         log.myLog.setUseParentHandlers(false);
         log.myLog.addHandler(ch);
         ch.setFormatter(formatter);
         log.myLog.setLevel(Level.ALL);
         try
         {
-            File logPath = new File(minecraftHome, ClassLoaderReplacer.logFileNamePattern);
+            File logPath = new File(minecraftHome, "logs/" + ClassLoadingManager.logFile);
             FileHandler fileHandler = new FileHandler(logPath.getPath(), 0, 3);
             fileHandler.setFormatter(formatter);
             fileHandler.setLevel(Level.ALL);

@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import net.mine_diver.testmod.blocks.TestBlocks;
 import net.mine_diver.testmod.proxy.CommonProxy;
 import net.minecraft.src.Block;
+import net.minecraft.src.CraftingManager;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.modificationstation.stationloader.util.PackageAccess;

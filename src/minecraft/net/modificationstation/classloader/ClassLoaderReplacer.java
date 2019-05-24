@@ -1,60 +1,22 @@
 package net.modificationstation.classloader;
 
 import java.applet.Applet;
-import java.applet.AppletStub;
-import java.awt.Dialog.ModalityType;
-import java.awt.HeadlessException;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URLClassLoader;
-import java.util.Arrays;
-import java.util.Properties;
-import java.util.logging.Level;
 
 import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.ProgressMonitorInputStream;
 
-public class ClassLoaderReplacer
+class ClassLoaderReplacer
 {
-    private static ClassLoaderReplacer INSTANCE;
-    public static String logFileNamePattern;
+    static final ClassLoaderReplacer INSTANCE = new ClassLoaderReplacer();
     private static Side side;
-    private MCClassLoader classLoader;
+    MCClassLoader classLoader;
     private Object newApplet;
     private Class<? super Object> appletClass;
 
     JDialog popupWindow;
-
-    public static void launchedFromMinecraft(String args[])
-    {
-        logFileNamePattern = "ForgeModLoader-client-%g.log";
-        side = Side.CLIENT;
-        instance().relaunchClient(args);
-    }
-
-    public static void handleServerRelaunch(String args[])
-    {
-        logFileNamePattern = "ForgeModLoader-server-%g.log";
-        side = Side.SERVER;
-        instance().relaunchServer(args);
-    }
-
-    static ClassLoaderReplacer instance()
-    {
-        if (INSTANCE == null)
-        {
-            INSTANCE = new ClassLoaderReplacer();
-        }
-        return INSTANCE;
-
-    }
 
     private ClassLoaderReplacer()
     {
@@ -63,26 +25,10 @@ public class ClassLoaderReplacer
         classLoader = new MCClassLoader(ucl.getURLs());
 
     }
-    private void showWindow(boolean showIt)
-    {
-        try
-        {
-            CoreModsAndLibrariesManager.downloadMonitor = new Downloader();
-            if (showIt)
-            {
-                popupWindow = CoreModsAndLibrariesManager.downloadMonitor.makeDialog();
-            }
-        }
-        catch (Exception e)
-        {
-            Downloader.makeHeadless();
-            popupWindow = null;
-        }
-    }
 
-    private void relaunchClient(String args[])
+    @SuppressWarnings("deprecation")
+    void relaunchClient(String args[])
     {
-        showWindow(true);
         // Now we re-inject the home into the "new" minecraft under our control
         Class<? super Object> client;
         try
@@ -104,7 +50,8 @@ public class ClassLoaderReplacer
 
         try
         {
-            ReflectionHelper.findMethod(client, null, new String[] { "actualMain" }, String[].class).invoke(null, new Object[] {args});
+            ReflectionHelper.findMethod(client, null, new String[] { "main" }, String[].class).invoke(null, new Object[] {args});
+            Thread.currentThread().stop();
         }
         catch (Exception e)
         {
@@ -113,9 +60,9 @@ public class ClassLoaderReplacer
         }
     }
 
-    private void relaunchServer(String args[])
+    @SuppressWarnings("deprecation")
+    void relaunchServer(String args[])
     {
-        showWindow(false);
         // Now we re-inject the home into the "new" minecraft under our control
         Class<? super Object> server;
         File minecraftHome = new File(".");
@@ -124,7 +71,8 @@ public class ClassLoaderReplacer
         server = ReflectionHelper.getClass(classLoader, "net.minecraft.server.MinecraftServer");
         try
         {
-            ReflectionHelper.findMethod(server, null, new String[] { "actualMain" }, String[].class).invoke(null, args);
+            ReflectionHelper.findMethod(server, null, new String[] { "actualMain" }, String[].class).invoke(null, (Object[])args);
+            Thread.currentThread().stop();
         }
         catch (Exception e)
         {
@@ -169,28 +117,20 @@ public class ClassLoaderReplacer
     private File computeExistingClientHome()
     {
         Class<? super Object> mcMaster = ReflectionHelper.getClass(getClass().getClassLoader(), "net.minecraft.client.Minecraft");
-        // We force minecraft to setup it's homedir very early on so we can inject stuff into it
-        Method setupHome = ReflectionHelper.findMethod(mcMaster, null, new String[] { "getMinecraftDir", "getMinecraftDir", "b"} );
+        Method setupHome = ReflectionHelper.findMethod(mcMaster, null, new String[] {"getMinecraftDir", "b"} );
         try
         {
             setupHome.invoke(null);
         }
         catch (Exception e)
         {
-            // Hmmm
+            
         }
         File minecraftHome = ReflectionHelper.getPrivateValue(mcMaster, null, "minecraftDir", "af", "minecraftDir");
         return minecraftHome;
     }
 
-    public static void appletEntry(Applet minecraftApplet)
-    {
-        side = Side.CLIENT;
-        logFileNamePattern = "ForgeModLoader-client-%g.log";
-        instance().relaunchApplet(minecraftApplet);
-    }
-
-    private void relaunchApplet(Applet minecraftApplet)
+    void relaunchApplet(Applet minecraftApplet)
     {
         appletClass = ReflectionHelper.getClass(classLoader, "net.minecraft.client.MinecraftApplet");
         if (minecraftApplet.getClass().getClassLoader() == classLoader)
@@ -246,10 +186,10 @@ public class ClassLoaderReplacer
 
     public static void appletStart(Applet applet)
     {
-        instance().startApplet(applet);
+        INSTANCE.startApplet(applet);
     }
 
-    private void startApplet(Applet applet)
+    void startApplet(Applet applet)
     {
         if (applet.getClass().getClassLoader() == classLoader)
         {

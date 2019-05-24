@@ -39,7 +39,7 @@ import javax.swing.ProgressMonitorInputStream;
 
 public class CoreModsAndLibrariesManager
 {
-    private static String[] rootPlugins =  { "cpw.mods.fml.relauncher.FMLCorePlugin" , "net.minecraftforge.classloading.FMLForgePlugin" };
+    /*private static String[] rootPlugins =  { "cpw.mods.fml.relauncher.FMLCorePlugin" , "net.minecraftforge.classloading.FMLForgePlugin" };
     private static List<String> loadedLibraries = new ArrayList<String>();
     private static Map<ICoreMod, File> pluginLocations;
     public final static List<ICoreMod> loadPlugins = new ArrayList<ICoreMod>();;
@@ -53,22 +53,6 @@ public class CoreModsAndLibrariesManager
     {
         pluginLocations = new HashMap<ICoreMod, File>();
         libraries = new ArrayList<ILibraryProvider>();
-        for (String s : rootPlugins)
-        {
-            try
-            {
-                ICoreMod plugin = (ICoreMod) Class.forName(s, true, actualClassLoader).newInstance();
-                loadPlugins.add(plugin);
-                for (String libName : plugin.getLibraryRequestClass())
-                {
-                    libraries.add((ILibraryProvider) Class.forName(libName, true, actualClassLoader).newInstance());
-                }
-            }
-            catch (Exception e)
-            {
-                // HMMM
-            }
-        }
 
         if (loadPlugins.isEmpty())
         {
@@ -201,28 +185,10 @@ public class CoreModsAndLibrariesManager
             }
         }
 
-        for (ICoreMod plug : loadPlugins)
-        {
-            if (plug.getASMTransformerClass()!=null)
-            {
-                for (String xformClass : plug.getASMTransformerClass())
-                {
-                    actualClassLoader.registerTransformer(xformClass);
-                }
-            }
-        }
-
         downloadMonitor.updateProgressString("Running coremod plugins");
         Map<String,Object> data = new HashMap<String,Object>();
         data.put("mcLocation", mcDir);
         data.put("coremodList", loadPlugins);
-        for (ICoreMod plugin : loadPlugins)
-        {
-            downloadMonitor.updateProgressString("Running coremod plugin %s", plugin.getClass().getSimpleName());
-            data.put("coremodLocation", pluginLocations.get(plugin));
-            plugin.setData(data);
-            downloadMonitor.updateProgressString("Coremod plugin %s run successfully", plugin.getClass().getSimpleName());
-        }
         try
         {
             downloadMonitor.updateProgressString("Validating minecraft");
@@ -307,45 +273,9 @@ public class CoreModsAndLibrariesManager
                 Log.log(Level.SEVERE, e, "Unable to convert file into a URL. weird");
                 continue;
             }
-            try
-            {
-                downloadMonitor.updateProgressString("Loading coremod %s", coreMod.getName());
-                Class<?> coreModClass = Class.forName(fmlCorePlugin, true, classLoader);
-                ICoreMod plugin = (ICoreMod) coreModClass.newInstance();
-                loadPlugins.add(plugin);
-                pluginLocations .put(plugin, coreMod);
-                if (plugin.getLibraryRequestClass()!=null)
-                {
-                    for (String libName : plugin.getLibraryRequestClass())
-                    {
-                        libraries.add((ILibraryProvider) Class.forName(libName, true, classLoader).newInstance());
-                    }
-                }
-                downloadMonitor.updateProgressString("Loaded coremod %s", coreMod.getName());
-            }
-            catch (ClassNotFoundException cnfe)
-            {
-                Log.log(Level.SEVERE, cnfe, "Coremod %s: Unable to class load the plugin %s", coreMod.getName(), fmlCorePlugin);
-            }
-            catch (ClassCastException cce)
-            {
-                Log.log(Level.SEVERE, cce, "Coremod %s: The plugin %s is not an implementor of IFMLLoadingPlugin", coreMod.getName(), fmlCorePlugin);
-            }
-            catch (InstantiationException ie)
-            {
-                Log.log(Level.SEVERE, ie, "Coremod %s: The plugin class %s was not instantiable", coreMod.getName(), fmlCorePlugin);
-            }
-            catch (IllegalAccessException iae)
-            {
-                Log.log(Level.SEVERE, iae, "Coremod %s: The plugin class %s was not accessible", coreMod.getName(), fmlCorePlugin);
-            }
         }
     }
 
-    /**
-     * @param mcDir
-     * @return
-     */
     private static File setupLibDir(File mcDir)
     {
         File libDir = new File(mcDir,"lib");
@@ -368,10 +298,6 @@ public class CoreModsAndLibrariesManager
         return libDir;
     }
 
-    /**
-     * @param mcDir
-     * @return
-     */
     private static File setupCoreModDir(File mcDir)
     {
         File coreModDir = new File(mcDir,"coremods");
@@ -500,5 +426,5 @@ public class CoreModsAndLibrariesManager
         {
             return null;
         }
-    }
+    }*/
 }
