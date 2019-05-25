@@ -19,10 +19,30 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="jars/bin/minecraft.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader beta 1.7.3/jars/lib/argo-2.25.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader beta 1.7.3/jars/lib/asm-all-5.2.jar" sourcepath="C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader beta 1.7.3/jars/lib/asm-all-4.0-source.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader beta 1.7.3/jars/lib/asm-all-5.2-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader beta 1.7.3/jars/lib/guava-12.0.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader beta 1.7.3/jars/lib/guava-12.0.1-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader beta 1.7.3/jars/lib/asm-7.1.jar" sourcepath="C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader beta 1.7.3/jars/lib/asm-7.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader%20beta%201.7.3/jars/lib/asm-7.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader beta 1.7.3/jars/lib/asm-tree-7.1.jar" sourcepath="C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader beta 1.7.3/jars/lib/asm-tree-7.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader%20beta%201.7.3/jars/lib/asm-tree-7.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader beta 1.7.3/jars/lib/asm-analysis-7.1.jar" sourcepath="C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader beta 1.7.3/jars/lib/asm-analysis-7.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader%20beta%201.7.3/jars/lib/asm-analysis-7.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader beta 1.7.3/jars/lib/asm-util-7.1.jar" sourcepath="C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader beta 1.7.3/jars/lib/asm-util-7.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader%20beta%201.7.3/jars/lib/asm-util-7.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader beta 1.7.3/jars/lib/asm-commons-7.1.jar" sourcepath="C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader beta 1.7.3/jars/lib/asm-commons-7.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/C:/Users/ABLPHA/Desktop/mods/StationLoader/StationLoader%20beta%201.7.3/jars/lib/asm-commons-7.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -3,13 +3,12 @@ package net.modificationstation.stationmodloader.loaders;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import net.modificationstation.classloader.ClassLoadingManager;
+import net.modificationstation.classloader.ILoader;
 import net.modificationstation.classloader.MCClassLoader;
 import net.modificationstation.classloader.ReflectionHelper;
 import net.modificationstation.classloader.Side;
@@ -17,8 +16,8 @@ import net.modificationstation.stationmodloader.StationModLoader;
 import net.modificationstation.stationmodloader.util.Mod;
 import net.modificationstation.stationmodloader.util.Mod.SidedProxy;
 
-public class Loader {
-	public void discoverAndLoadMods() {
+public class Loader implements ILoader {
+	public void discoverAndLoad() {
         File modsFolder = null;
         modsFolder = new File(ClassLoadingManager.INSTANCE.getMinecraftDir() + "/mods/");
         for (int j = new File(ClassLoadingManager.INSTANCE.getMinecraftDir() + "/mods/b1.7.3").exists() ? 0 : 1; j < 2;j++) {
@@ -28,10 +27,6 @@ public class Loader {
                 try {
 			        File modFile = mods[i];
 	                StationModLoader.LOGGER.info("Found a file (" + modFile.getName() + ")");
-			        /*ClassLoader loader = URLClassLoader.newInstance(
-			                new URL[] { modFile.toURI().toURL() },
-			                getClass().getClassLoader()
-			            );*/
 			        ((MCClassLoader)getClass().getClassLoader()).addURL(modFile.toURI().toURL());
 			        JarFile modJar = new JarFile(modFile);
 			        Enumeration<JarEntry> modClasses = modJar.entries();
@@ -58,7 +53,7 @@ public class Loader {
         	StationModLoader.LOGGER.warning("A broken mod detected! Mod can't be both server and client side only. Ingoring");
         	return;
         }
-        if ((StationModLoader.SIDE == Side.CLIENT && mod.serverSideOnly()) || (StationModLoader.SIDE == Side.SERVER && mod.clientSideOnly())) {
+        if ((Side.current() == Side.CLIENT && mod.serverSideOnly()) || (Side.current() == Side.SERVER && mod.clientSideOnly())) {
         	StationModLoader.LOGGER.info("Skipped mod not matching the side of Minecraft");
         	return;
         }
@@ -83,12 +78,12 @@ public class Loader {
             Field modifiers = Field.class.getDeclaredField("modifiers");
             modifiers.setAccessible(true);
             modifiers.set(fields[k], fields[k].getModifiers() & ~Modifier.FINAL);
-            if (StationModLoader.SIDE == Side.CLIENT)
+            if (Side.current() == Side.CLIENT)
                 try {
                     fields[k].set(instance, Class.forName(sidedProxy.clientSide(), false, loader).newInstance());
                     StationModLoader.LOGGER.info("Set client proxy in \"" + fields[k].getName() + "\"");
                 } catch (Exception e) {e.printStackTrace();}
-            if (StationModLoader.SIDE == Side.SERVER)
+            if (Side.current() == Side.SERVER)
                 try {
                     fields[k].set(instance, Class.forName(sidedProxy.serverSide(), false, loader).newInstance());
                     StationModLoader.LOGGER.info("Set server proxy in \"" + fields[k].getName() + "\"");
@@ -97,5 +92,5 @@ public class Loader {
         StationModLoader.LOGGER.info("Loaded " + clazz.getAnnotation(Mod.class).name() + " mod");
     }
     private Loader() {}
-	public final static Loader INSTANCE = new Loader();
+	public final static ILoader INSTANCE = new Loader();
 }

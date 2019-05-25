@@ -203,10 +203,7 @@ public class ReflectionHelper
     public static <T, E> void setFinalValue(Class <? super T > classToAccess, T instance, E value, int fieldIndex) {
     	try {
     		Field f = classToAccess.getDeclaredFields()[fieldIndex];
-    		f.setAccessible(true);
-    		Field modifiers = Field.class.getDeclaredField("modifiers");
-    		modifiers.setAccessible(true);
-    		modifiers.set(f, f.getModifiers() & ~Modifier.FINAL);
+    		publicField(f);
     		f.set(instance, value);
     	} catch (Exception e) {
     		throw new UnableToAccessFieldException(new String[0], e);
@@ -216,13 +213,32 @@ public class ReflectionHelper
     public static <T, E> void setFinalValue(Class <? super T > classToAccess, T instance, E value, String... fieldNames) {
     	try {
     		Field f = findField(classToAccess, fieldNames);
-    		f.setAccessible(true);
-    		Field modifiers = Field.class.getDeclaredField("modifiers");
-    		modifiers.setAccessible(true);
-    		modifiers.set(f, f.getModifiers() & ~Modifier.FINAL);
+    		publicField(f);
     		f.set(instance, value);
     	} catch (Exception e) {
     		throw new UnableToAccessFieldException(new String[0], e);
     	}
+    }
+    
+    public static void publicField(Field field) {
+        try {
+            field.setAccessible(true);
+            modifiersField.set(field, field.getModifiers() & ~Modifier.FINAL);
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private static final Field modifiersField;
+    
+    static {
+        Field field = null;
+        try {
+            field = Field.class.getDeclaredField("modifiers");
+            field.setAccessible(true);
+        } catch (NoSuchFieldException | SecurityException e) {
+            e.printStackTrace();
+        }
+        modifiersField = field;
     }
 }

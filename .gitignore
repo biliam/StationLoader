@@ -6,10 +6,12 @@ reobf/
 temp/
 src/minecraft/net/minecraft/src
 src/minecraft_server/net/minecraft/src
-eclipse/.metadata
+eclipse/\.metadata/
+eclipse/\.recommenders/
 
 # Allow server.properties
 !jars/server.properties
 
 # Block StationLoader tests
 tests/
+

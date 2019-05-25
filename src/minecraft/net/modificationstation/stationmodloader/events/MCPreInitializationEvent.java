@@ -1,17 +1,10 @@
 package net.modificationstation.stationmodloader.events;
 
-import java.io.File;
 import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Iterator;
-import java.util.logging.FileHandler;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
-import net.modificationstation.classloader.ClassLoadingManager;
 import net.modificationstation.classloader.Log;
-import net.modificationstation.classloader.LogFormatter;
 import net.modificationstation.classloader.ReflectionHelper;
 import net.modificationstation.stationmodloader.StationModLoader;
 import net.modificationstation.stationmodloader.util.Mod;

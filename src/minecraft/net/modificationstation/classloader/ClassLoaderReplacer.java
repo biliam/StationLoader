@@ -29,24 +29,10 @@ class ClassLoaderReplacer
     @SuppressWarnings("deprecation")
     void relaunchClient(String args[])
     {
-        // Now we re-inject the home into the "new" minecraft under our control
-        Class<? super Object> client;
-        try
-        {
-            File minecraftHome = computeExistingClientHome();
-            setupHome(minecraftHome);
-
-            client = ReflectionHelper.getClass(classLoader, "net.minecraft.client.Minecraft");
-            ReflectionHelper.setPrivateValue(client, null, minecraftHome, "minecraftDir", "af", "minecraftDir");
-        }
-        finally
-        {
-            if (popupWindow!=null)
-            {
-                popupWindow.setVisible(false);
-                popupWindow.dispose();
-            }
-        }
+        File minecraftHome = computeExistingClientHome();
+        setupHome(minecraftHome);
+        Class<? super Object> client = ReflectionHelper.getClass(classLoader, "net.minecraft.client.Minecraft");
+        ReflectionHelper.setPrivateValue(client, null, minecraftHome, "minecraftDir", "af", "minecraftDir");
 
         try
         {

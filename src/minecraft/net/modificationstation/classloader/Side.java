@@ -1,16 +1,43 @@
 package net.modificationstation.classloader;
 
+/**
+ * Enum that represents 2 sides of Minecraft - server and client.
+ * Can not be instantiated in runtime, will throw exception, even with EnumHelper.
+ * 
+ * @author mine_diver
+ *
+ */
 public enum Side {
+    
     CLIENT,
     SERVER;
     
     private Side() {
-        if (!name().equals("CLIENT") && !name().equals("SERVER"))
-            try {
-                throw new IllegalAccessException("There can't be more than 2 sides!");
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-                System.exit(1);
-            }
+        try {
+            values();
+            new IllegalAccessException("There can't be more than 2 sides!").printStackTrace();
+            System.exit(1);
+        } catch (NullPointerException e) {}
     }
+    
+    /**
+     * Returns current side of code
+     * 
+     * @return
+     */
+    public static Side current() {
+        return current;
+    }
+    
+    /**
+     * Initializes "current" variable
+     * 
+     * @param side
+     */
+    static void setCurrent(Side side) {
+        if (current == null)
+            current = side;
+    }
+    
+    private static Side current;
 }

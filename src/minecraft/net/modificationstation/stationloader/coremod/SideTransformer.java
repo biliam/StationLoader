@@ -11,7 +11,6 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import net.modificationstation.classloader.ClassLoadingManager;
 import net.modificationstation.classloader.IClassTransformer;
 import net.modificationstation.classloader.Side;
 
@@ -23,9 +22,7 @@ import net.modificationstation.classloader.Side;
  */
 public class SideTransformer implements IClassTransformer
 {
-    private static Side SIDE = ClassLoadingManager.INSTANCE.side;
     private static final boolean DEBUG = true;
-    @SuppressWarnings("unchecked")
     @Override
     public byte[] transform(String name, byte[] bytes)
     {
@@ -37,7 +34,7 @@ public class SideTransformer implements IClassTransformer
         while(fields.hasNext())
         {
             FieldNode field = fields.next();
-            if (remove((List<AnnotationNode>)field.visibleAnnotations, SIDE))
+            if (remove((List<AnnotationNode>)field.visibleAnnotations, Side.current()))
             {
                 if (DEBUG)
                 {
@@ -50,7 +47,7 @@ public class SideTransformer implements IClassTransformer
         while(methods.hasNext())
         {
             MethodNode method = methods.next();
-            if (remove((List<AnnotationNode>)method.visibleAnnotations, SIDE))
+            if (remove((List<AnnotationNode>)method.visibleAnnotations, Side.current()))
             {
                 if (DEBUG)
                 {
