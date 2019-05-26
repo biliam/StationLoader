@@ -4,9 +4,9 @@ import java.applet.Applet;
 import java.io.File;
 import java.io.IOException;
 
-public class ClassLoadingManager {
+public final class ClassLoadingManager {
 
-    private void commonInit(Side sideIn) {
+    private final void commonInit(Side sideIn) {
         init = true;
         Side.setCurrent(sideIn);
         if (Side.current() == Side.CLIENT)
@@ -27,12 +27,12 @@ public class ClassLoadingManager {
         Log.info("Finished premains");
         Log.info("Starting Minecraft...");
     }
-    private void runPremain() {
+    private final void runPremain() {
         if (loadedCoreMods.length > 0)
             for (ICoreMod coremod : loadedCoreMods)
                 coremod.premain();
     }
-    public void init(String args[], Side sideIn) {
+    public final void init(String args[], Side sideIn) {
         if (!init) {
             commonInit(sideIn);
             if (Side.current() == Side.CLIENT)
@@ -41,7 +41,7 @@ public class ClassLoadingManager {
                 ClassLoaderReplacer.INSTANCE.relaunchServer(args);
         }
     }
-    public void init(Applet applet, boolean start) {
+    public final void init(Applet applet, boolean start) {
         if (!init) {
             commonInit(Side.CLIENT);
             if (start)
@@ -50,7 +50,7 @@ public class ClassLoadingManager {
                 ClassLoaderReplacer.INSTANCE.relaunchApplet(applet);
         }
     }
-    public File getMinecraftDir() {
+    public final File getMinecraftDir() {
         if (minecraftDir == null) {
             try {
                 minecraftDir = new File(new File(".").getCanonicalPath());
@@ -58,7 +58,7 @@ public class ClassLoadingManager {
         }
         return minecraftDir;
     }
-    void addCoreMod(ICoreMod coremod) {
+    final void addCoreMod(ICoreMod coremod) {
         ICoreMod prevLoadedCoreMods[] = loadedCoreMods;
         loadedCoreMods = new ICoreMod[loadedCoreMods.length + 1];
         for (int i = 0;i < prevLoadedCoreMods.length;i++)

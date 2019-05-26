@@ -27,10 +27,7 @@ public class MinecraftApplet extends Applet
     public void init()
     {
         ClassLoadingManager.INSTANCE.init(this, false);
-    }
-    
-    public void fmlInitReentry() {
-    	mcCanvas = new CanvasMinecraftApplet(this);
+        mcCanvas = new CanvasMinecraftApplet(this);
         boolean flag = false;
         if(getParameter("fullscreen") != null)
         {
@@ -82,10 +79,7 @@ public class MinecraftApplet extends Applet
     public void start()
     {
         ClassLoadingManager.INSTANCE.init(this, true);
-    }
-    
-    public void fmlStartReentry() {
-    	if(mc != null)
+        if(mc != null)
         {
             mc.isGamePaused = false;
         }

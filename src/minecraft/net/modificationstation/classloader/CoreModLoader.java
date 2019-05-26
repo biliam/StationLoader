@@ -5,8 +5,8 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class CoreModLoader implements ILoader {
-    public void discoverAndLoad() {
+final class CoreModLoader implements ILoader {
+    public final void discoverAndLoad() {
         File modsFolder = null;
         modsFolder = new File(ClassLoadingManager.INSTANCE.getMinecraftDir() + "/mods/");
         for (int j = new File(ClassLoadingManager.INSTANCE.getMinecraftDir() + "/mods/b1.7.3").exists() ? 0 : 1; j < 2;j++) {
@@ -42,7 +42,7 @@ public class CoreModLoader implements ILoader {
             modsFolder = new File(ClassLoadingManager.INSTANCE.getMinecraftDir() + "/mods/b1.7.3");
         }
     }
-    void loadMod(Class<?> coremod) throws InstantiationException, IllegalAccessException {
+    final void loadMod(Class<?> coremod) throws InstantiationException, IllegalAccessException {
         ClassLoadingManager.INSTANCE.addCoreMod(ICoreMod.class.cast(coremod.newInstance()));
     }
     private CoreModLoader() {}

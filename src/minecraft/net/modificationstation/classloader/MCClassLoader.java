@@ -14,22 +14,22 @@ import java.util.logging.Level;
 
 public class MCClassLoader extends URLClassLoader
 {
-    private static String[] excludedPackages = {
+    private static final String[] excludedPackages = {
         //"java.", "sun.", "javax.",
         "net.modificationstation.classloader."
     };
 
-    private static String[] transformerExclusions =
+    private static final String[] transformerExclusions =
     {
         "org.objectweb.asm."
     };
-    private List<URL> sources;
-    private ClassLoader parent;
+    private final List<URL> sources;
+    private final ClassLoader parent;
 
-    private List<IClassTransformer> transformers;
-    private Map<String, Class<?>> cachedClasses;
+    private final List<IClassTransformer> transformers;
+    private final Map<String, Class<?>> cachedClasses;
 
-    public MCClassLoader(URL[] sources)
+    MCClassLoader(URL[] sources)
     {
         super(sources, null);
         this.sources = new ArrayList<URL>(Arrays.asList(sources));
@@ -40,7 +40,7 @@ public class MCClassLoader extends URLClassLoader
         Thread.currentThread().setContextClassLoader(this);
     }
 
-    public void registerTransformer(String transformerClassName)
+    public final void registerTransformer(String transformerClassName)
     {
         try
         {
@@ -52,7 +52,7 @@ public class MCClassLoader extends URLClassLoader
         }
     }
     @Override
-    public Class<?> findClass(String name) throws ClassNotFoundException
+    public final Class<?> findClass(String name) throws ClassNotFoundException
     {
         for (String st : excludedPackages)
         {
@@ -105,7 +105,7 @@ public class MCClassLoader extends URLClassLoader
      * @return
      * @throws IOException
      */
-    public byte[] getClassBytes(String name) throws IOException
+    public final byte[] getClassBytes(String name) throws IOException
     {
         InputStream classStream = null;
         try
@@ -131,7 +131,7 @@ public class MCClassLoader extends URLClassLoader
         }
     }
 
-    private byte[] runTransformers(String name, byte[] basicClass)
+    private final byte[] runTransformers(String name, byte[] basicClass)
     {
         for (IClassTransformer transformer : transformers)
         {
@@ -141,19 +141,19 @@ public class MCClassLoader extends URLClassLoader
     }
 
     @Override
-    public void addURL(URL url)
+    public final void addURL(URL url)
     {
         super.addURL(url);
         sources.add(url);
     }
 
-    public List<URL> getSources()
+    public final List<URL> getSources()
     {
         return sources;
     }
 
 
-    private byte[] readFully(InputStream stream)
+    private final byte[] readFully(InputStream stream)
     {
         try
         {

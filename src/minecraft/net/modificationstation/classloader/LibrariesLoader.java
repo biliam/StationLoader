@@ -3,10 +3,10 @@ package net.modificationstation.classloader;
 import java.io.File;
 import java.net.MalformedURLException;
 
-class LibrariesLoader implements ILoader{
+final class LibrariesLoader implements ILoader{
 
     @Override
-    public void discoverAndLoad() {
+    public final void discoverAndLoad() {
         for (File file : new File(ClassLoadingManager.INSTANCE.getMinecraftDir(), "/lib/").listFiles()) {
             Log.info("Found a file (%s)", file.getName());
             if (file.getName().endsWith(".jar"))
@@ -20,7 +20,7 @@ class LibrariesLoader implements ILoader{
         }
     }
     
-    void loadLib(File file) throws MalformedURLException {
+    final void loadLib(File file) throws MalformedURLException {
         ClassLoaderReplacer.INSTANCE.classLoader.addURL(file.toURI().toURL());
     }
     

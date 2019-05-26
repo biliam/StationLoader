@@ -25,7 +25,7 @@ public enum Side {
      * 
      * @return
      */
-    public static Side current() {
+    public static final Side current() {
         return current;
     }
     
@@ -34,7 +34,7 @@ public enum Side {
      * 
      * @param side
      */
-    static void setCurrent(Side side) {
+    static final void setCurrent(Side side) {
         if (current == null)
             current = side;
     }
