@@ -11,6 +11,12 @@ import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
+/**
+ * Formatter for the logger
+ * 
+ * @author mine_diver
+ *
+ */
 final class LogFormatter extends Formatter
 {
     static final String LINE_SEPARATOR = System.getProperty("line.separator");

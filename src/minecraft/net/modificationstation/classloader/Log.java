@@ -12,6 +12,12 @@ import java.util.logging.Logger;
 
 import net.modificationstation.classloader.LogFormatter;
 
+/**
+ * A clean logger
+ * 
+ * @author mine_diver
+ *
+ */
 public final class Log
 {
 

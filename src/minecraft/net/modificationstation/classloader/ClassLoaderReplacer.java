@@ -5,6 +5,12 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URLClassLoader;
 
+/**
+ * Class that relaunches Minecraft under new ClassLoader that we can control
+ * 
+ * @author mine_diver
+ * 
+ */
 final class ClassLoaderReplacer
 {
     static final ClassLoaderReplacer INSTANCE = new ClassLoaderReplacer();
@@ -18,7 +24,14 @@ final class ClassLoaderReplacer
         classLoader = new MCClassLoader(ucl.getURLs());
 
     }
-
+    
+    /**
+     * Method that is used to relaunch client under our ClassLoader if it was launched from Minecraft.class
+     * Deprecation: using deprecated Thread.currentThread().stop(); method, because we need to stop the main thread from executing,
+     * as the relaunched Minecraft runs in its own thread and we don't need 2 Minecrafts. 
+     * 
+     * @param args
+     */
     @SuppressWarnings("deprecation")
     final void relaunchClient(String args[])
     {
@@ -32,7 +45,12 @@ final class ClassLoaderReplacer
         }
         catch (Exception e) {e.printStackTrace();}
     }
-
+    
+    /**
+     * Relaunches server. Still being worked though, because server side isn't currently supported
+     * 
+     * @param args
+     */
     @SuppressWarnings("deprecation")
     final void relaunchServer(String args[])
     {
@@ -45,6 +63,11 @@ final class ClassLoaderReplacer
         catch (Exception e) {e.printStackTrace();}
     }
     
+    /**
+     * Using the Minecraft.class in the original ClassLoader this method gets .minecraft dir path
+     * 
+     * @return
+     */
     private final File computeExistingClientHome()
     {
         Class<? super Object> mcMaster = ReflectionHelper.getClass(getClass().getClassLoader(), "net.minecraft.client.Minecraft");
@@ -60,7 +83,13 @@ final class ClassLoaderReplacer
         File minecraftHome = ReflectionHelper.getPrivateValue(mcMaster, null, "minecraftDir", "af", "minecraftDir");
         return minecraftHome;
     }
-
+    
+    /**
+     * Usually Minecraft launchers use MinecraftApplet.class to start the game instead of Minecraft.class, so this method
+     * actually restarts MinecraftApplet from the launcher itself under our ClassLoader
+     * 
+     * @param minecraftApplet
+     */
     final void relaunchApplet(Applet minecraftApplet)
     {
         appletClass = ReflectionHelper.getClass(classLoader, "net.minecraft.client.MinecraftApplet");
@@ -102,7 +131,12 @@ final class ClassLoaderReplacer
             throw new RuntimeException(e);
         }
     }
-
+    
+    /**
+     * After Minecraft applet init() method is called, there is start() method next, so we need to relaunch it too
+     * 
+     * @param applet
+     */
     final void startApplet(Applet applet)
     {
         if (applet.getClass().getClassLoader() == classLoader)

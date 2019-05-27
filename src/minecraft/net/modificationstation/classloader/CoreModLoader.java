@@ -5,7 +5,18 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+/**
+ * Loads core mods
+ * 
+ * @author mine_diver
+ *
+ */
 final class CoreModLoader implements ILoader {
+    
+    /**
+     * Discovers and loads core mods
+     */
+    @Override
     public final void discoverAndLoad() {
         File modsFolder = null;
         modsFolder = new File(ClassLoadingManager.INSTANCE.getMinecraftDir() + "/mods/");
@@ -42,6 +53,14 @@ final class CoreModLoader implements ILoader {
             modsFolder = new File(ClassLoadingManager.INSTANCE.getMinecraftDir() + "/mods/b1.7.3");
         }
     }
+    
+    /**
+     * Loads core mods
+     * 
+     * @param coremod
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
     final void loadMod(Class<?> coremod) throws InstantiationException, IllegalAccessException {
         ClassLoadingManager.INSTANCE.addCoreMod(ICoreMod.class.cast(coremod.newInstance()));
     }

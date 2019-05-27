@@ -12,6 +12,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
+/**
+ * Minecraft ClassLoader
+ * 
+ * @author mine_diver
+ *
+ */
 public class MCClassLoader extends URLClassLoader
 {
     private static final String[] excludedPackages = {
@@ -39,7 +45,12 @@ public class MCClassLoader extends URLClassLoader
         ReflectionHelper.setPrivateValue(ClassLoader.class, null, this, "scl");
         Thread.currentThread().setContextClassLoader(this);
     }
-
+    
+    /**
+     * Using this method core mods can provide ClassTransformers for ClassLoader
+     * 
+     * @param transformerClassName
+     */
     public final void registerTransformer(String transformerClassName)
     {
         try
@@ -51,6 +62,11 @@ public class MCClassLoader extends URLClassLoader
             Log.log(Level.SEVERE, e, "A critical problem occured registering the ASM transformer class %s", transformerClassName);
         }
     }
+    
+    /**
+     * Using this method we can store some classes in cache and run ClassTransformers, as well as not run ClassTransformers on
+     * transformer exclusions
+     */
     @Override
     public final Class<?> findClass(String name) throws ClassNotFoundException
     {
@@ -99,8 +115,10 @@ public class MCClassLoader extends URLClassLoader
             throw new ClassNotFoundException(name, e);
         }
     }
-
+    
     /**
+     * Returns class's bytecode for further transformation
+     * 
      * @param name
      * @return
      * @throws IOException
@@ -130,7 +148,14 @@ public class MCClassLoader extends URLClassLoader
             }
         }
     }
-
+    
+    /**
+     * Runs ClassTransformers to transform a class that is about to be loaded
+     * 
+     * @param name
+     * @param basicClass
+     * @return
+     */
     private final byte[] runTransformers(String name, byte[] basicClass)
     {
         for (IClassTransformer transformer : transformers)
@@ -139,20 +164,33 @@ public class MCClassLoader extends URLClassLoader
         }
         return basicClass;
     }
-
+    
+    /**
+     * Adds a file into ClassLoader sources
+     */
     @Override
     public final void addURL(URL url)
     {
         super.addURL(url);
         sources.add(url);
     }
-
+    
+    /**
+     * Returns all loaded sources
+     * 
+     * @return
+     */
     public final List<URL> getSources()
     {
         return sources;
     }
 
-
+    /**
+     * Reads byte files. Usually used by getClassBytes() method
+     * 
+     * @param stream
+     * @return
+     */
     private final byte[] readFully(InputStream stream)
     {
         try

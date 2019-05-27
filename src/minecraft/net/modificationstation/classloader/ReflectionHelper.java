@@ -8,6 +8,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Some reflection hacks for more control over Minecraft
+ * 
+ * @author mine_diver
+ *
+ */
 public class ReflectionHelper
 {
     @SuppressWarnings("serial")
@@ -63,7 +69,14 @@ public class ReflectionHelper
             this.fieldNameList = fieldNameList;
         }
     }
-
+    
+    /**
+     * Returns a field that matches a name in given list
+     * 
+     * @param clazz
+     * @param fieldNames
+     * @return
+     */
     public static Field findField(Class<?> clazz, String... fieldNames)
     {
         Exception failed = null;
@@ -82,7 +95,15 @@ public class ReflectionHelper
         }
         throw new UnableToFindFieldException(fieldNames, failed);
     }
-
+    
+    /**
+     * Returns the value of a private field by its index
+     * 
+     * @param classToAccess
+     * @param instance
+     * @param fieldIndex
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public static <T, E> T getPrivateValue(Class <? super E > classToAccess, E instance, int fieldIndex)
     {
@@ -97,7 +118,15 @@ public class ReflectionHelper
             throw new UnableToAccessFieldException(new String[0], e);
         }
     }
-
+    
+    /**
+     * Returns the value of a private field by its name(s)
+     * 
+     * @param classToAccess
+     * @param instance
+     * @param fieldNames
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public static <T, E> T getPrivateValue(Class <? super E > classToAccess, E instance, String... fieldNames)
     {
@@ -110,7 +139,15 @@ public class ReflectionHelper
             throw new UnableToAccessFieldException(fieldNames, e);
         }
     }
-
+    
+    /**
+     * Sets the value of a private field by its index
+     * 
+     * @param classToAccess
+     * @param instance
+     * @param value
+     * @param fieldIndex
+     */
     public static <T, E> void setPrivateValue(Class <? super T > classToAccess, T instance, E value, int fieldIndex)
     {
         try
@@ -124,7 +161,15 @@ public class ReflectionHelper
             throw new UnableToAccessFieldException(new String[0] , e);
         }
     }
-
+    
+    /**
+     * Sets the value of a private field by its name(s)
+     * 
+     * @param classToAccess
+     * @param instance
+     * @param value
+     * @param fieldNames
+     */
     public static <T, E> void setPrivateValue(Class <? super T > classToAccess, T instance, E value, String... fieldNames)
     {
         try
@@ -136,7 +181,14 @@ public class ReflectionHelper
             throw new UnableToAccessFieldException(fieldNames, e);
         }
     }
-
+    
+    /**
+     * Searches for a class by a list of names and loads with given classloader
+     * 
+     * @param loader
+     * @param classNames
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public static Class<? super Object> getClass(ClassLoader loader, String... classNames)
     {
@@ -155,8 +207,16 @@ public class ReflectionHelper
 
         throw new UnableToFindClassException(classNames, err);
     }
-
-
+    
+    /**
+     * Searches for a method by a list of names and parameter types
+     * 
+     * @param clazz
+     * @param instance
+     * @param methodNames
+     * @param methodTypes
+     * @return
+     */
     public static <E> Method findMethod(Class<? super E> clazz, E instance, String[] methodNames, Class<?>... methodTypes)
     {
         Exception failed = null;
@@ -175,7 +235,15 @@ public class ReflectionHelper
         }
         throw new UnableToFindMethodException(methodNames, failed);
     }
-
+    
+    /**
+     * Returns a list of methods that have given annotation and parameter types
+     * 
+     * @param clazz
+     * @param annotation
+     * @param parameterTypes
+     * @return
+     */
     public static Method[] getMethodsAnnotation(final Class<?> clazz, final Class<? extends Annotation> annotation, final Class<?>...parameterTypes) {
         List<Method> methods = new ArrayList<Method>();
         for (Method m : clazz.getDeclaredMethods()) {
@@ -188,6 +256,13 @@ public class ReflectionHelper
         return (Method[])methods.toArray(new Method[methods.size()]);
     }
     
+    /**
+     * Returns an array of fields that have given annotation
+     * 
+     * @param clazz
+     * @param annotation
+     * @return
+     */
     public static Field[] getFieldsAnnotation(final Class<?> clazz, final Class<? extends Annotation> annotation) {
         List<Field> fields = new ArrayList<Field>();
         for (Field f : clazz.getDeclaredFields()) {
@@ -200,6 +275,14 @@ public class ReflectionHelper
         return (Field[])fields.toArray(new Field[fields.size()]);
     }
     
+    /**
+     * Sets the value of a final field by its index
+     * 
+     * @param classToAccess
+     * @param instance
+     * @param value
+     * @param fieldIndex
+     */
     public static <T, E> void setFinalValue(Class <? super T > classToAccess, T instance, E value, int fieldIndex) {
     	try {
     		Field f = classToAccess.getDeclaredFields()[fieldIndex];
@@ -210,6 +293,14 @@ public class ReflectionHelper
     	}
     }
     
+    /**
+     * Sets the value of a final field by its name(s)
+     * 
+     * @param classToAccess
+     * @param instance
+     * @param value
+     * @param fieldNames
+     */
     public static <T, E> void setFinalValue(Class <? super T > classToAccess, T instance, E value, String... fieldNames) {
     	try {
     		Field f = findField(classToAccess, fieldNames);
@@ -220,6 +311,11 @@ public class ReflectionHelper
     	}
     }
     
+    /**
+     * Makes a field public and removes "final" modifier
+     * 
+     * @param field
+     */
     public static void publicField(Field field) {
         try {
             field.setAccessible(true);

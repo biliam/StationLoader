@@ -3,8 +3,17 @@ package net.modificationstation.classloader;
 import java.io.File;
 import java.net.MalformedURLException;
 
+/**
+ * Loader that loads .jar libraries from .minecraft/lib/ folder
+ * 
+ * @author mine_diver
+ *
+ */
 final class LibrariesLoader implements ILoader{
 
+    /**
+     * Discovers and loads libraries
+     */
     @Override
     public final void discoverAndLoad() {
         for (File file : new File(ClassLoadingManager.INSTANCE.getMinecraftDir(), "/lib/").listFiles()) {
@@ -20,6 +29,12 @@ final class LibrariesLoader implements ILoader{
         }
     }
     
+    /**
+     * Loads libraries
+     * 
+     * @param file
+     * @throws MalformedURLException
+     */
     final void loadLib(File file) throws MalformedURLException {
         ClassLoaderReplacer.INSTANCE.classLoader.addURL(file.toURI().toURL());
     }

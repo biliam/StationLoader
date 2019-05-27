@@ -4,6 +4,12 @@ import java.applet.Applet;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * The main class in net.modificationstation.classloader package. It controls core mods, classloader, libraries, etc
+ * 
+ * @author mine_diver
+ *
+ */
 public final class ClassLoadingManager {
 
     private final void commonInit(Side sideIn) {

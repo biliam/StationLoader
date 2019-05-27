@@ -17,6 +17,7 @@ import net.modificationstation.stationmodloader.util.Mod;
 import net.modificationstation.stationmodloader.util.Mod.SidedProxy;
 
 public class Loader implements ILoader {
+    @Override
 	public void discoverAndLoad() {
         File modsFolder = null;
         modsFolder = new File(ClassLoadingManager.INSTANCE.getMinecraftDir() + "/mods/");
