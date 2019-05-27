@@ -8,6 +8,12 @@ src/minecraft/net/minecraft/src
 src/minecraft_server/net/minecraft/src
 eclipse/\.metadata/
 eclipse/\.recommenders/
+eclipse/Client/bin/
+eclipse/Server/bin/
+eclipse/TestJarMod/bin/
+eclipse/OldLogoMod/bin/
+eclipse/InGameTexturePacks/bin/
+eclipse/AlphaDimension/bin/
 
 # Allow server.properties
 !jars/server.properties
