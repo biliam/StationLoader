@@ -4,6 +4,18 @@ jars/
 logs/
 reobf/
 temp/
+docs/
+conf/
+runtime/
+cleanup.bat
+decompile.bat
+recompile.bat
+reobfuscate.bat
+startclient.bat
+startserver.bat
+updatemcp.bat
+updatemd5.bat
+updatenames.bat
 src/minecraft/net/minecraft/src
 src/minecraft_server/net/minecraft/src
 eclipse/\.metadata/
@@ -14,9 +26,6 @@ eclipse/TestJarMod/bin/
 eclipse/OldLogoMod/bin/
 eclipse/InGameTexturePacks/bin/
 eclipse/AlphaDimension/bin/
-
-# Allow server.properties
-!jars/server.properties
 
 # Block StationLoader tests
 tests/
