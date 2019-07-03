@@ -2,6 +2,7 @@ package net.modificationstation.stationloader.coremod;
 
 import net.modificationstation.classloader.ICoreMod;
 import net.modificationstation.classloader.MCClassLoader;
+import net.modificationstation.stationmodloader.transformers.MixtureTransformer;
 
 /**
  * StationLoader's coremod that provides some class transformers
@@ -9,7 +10,7 @@ import net.modificationstation.classloader.MCClassLoader;
  * @author mine_diver
  *
  */
-public class StationCoreMod implements ICoreMod{
+public class StationCoreMod implements ICoreMod {
     
     
     @Override

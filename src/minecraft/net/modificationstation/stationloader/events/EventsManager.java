@@ -1,4 +1,4 @@
-package net.modificationstation.stationloader.events.common;
+package net.modificationstation.stationloader.events;
 
 /**
  * Events manager for easier and faster events control

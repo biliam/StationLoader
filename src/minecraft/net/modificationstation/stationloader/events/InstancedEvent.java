@@ -1,4 +1,4 @@
-package net.modificationstation.stationloader.events.common;
+package net.modificationstation.stationloader.events;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;

@@ -1,6 +1,7 @@
 // Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) braces deadcode 
+// Source File Name:   SourceFile
 
 package net.minecraft.client;
 
@@ -9,7 +10,6 @@ import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.io.PrintStream;
 import java.net.URL;
-
 import net.minecraft.src.*;
 import net.modificationstation.classloader.ClassLoadingManager;
 
@@ -26,7 +26,7 @@ public class MinecraftApplet extends Applet
 
     public void init()
     {
-        ClassLoadingManager.INSTANCE.init(this, false);
+    	ClassLoadingManager.INSTANCE.init(this, false);
         mcCanvas = new CanvasMinecraftApplet(this);
         boolean flag = false;
         if(getParameter("fullscreen") != null)
@@ -62,7 +62,7 @@ public class MinecraftApplet extends Applet
         validate();
         return;
     }
-    
+
     public void startMainThread()
     {
         if(mcThread != null)
@@ -78,7 +78,7 @@ public class MinecraftApplet extends Applet
 
     public void start()
     {
-        ClassLoadingManager.INSTANCE.init(this, true);
+    	ClassLoadingManager.INSTANCE.init(this, true);
         if(mc != null)
         {
             mc.isGamePaused = false;

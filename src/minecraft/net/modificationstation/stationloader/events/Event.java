@@ -1,4 +1,4 @@
-package net.modificationstation.stationloader.events.common;
+package net.modificationstation.stationloader.events;
 
 /**
  * Abstract event class so you can make your own events registering method

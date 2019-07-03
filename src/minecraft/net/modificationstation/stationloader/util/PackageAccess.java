@@ -1,7 +1,5 @@
 package net.modificationstation.stationloader.util;
 
-import java.lang.reflect.Method;
-
 import net.minecraft.src.ItemStack;
 import net.modificationstation.classloader.ReflectionHelper;
 
@@ -12,6 +10,24 @@ import net.modificationstation.classloader.ReflectionHelper;
  *
  */
 public class PackageAccess {
+	
+	/**
+	 * Minecraft access class so mods can access some private/no modifier/protected methods and fields, like Minecraft's instance
+	 * 
+	 * @author mine_diver
+	 *
+	 */
+	public static class Minecraft {
+		public static net.minecraft.client.Minecraft theMinecraft;
+		
+		static {
+			try {
+				theMinecraft = (net.minecraft.client.Minecraft) ReflectionHelper.findField(net.minecraft.client.Minecraft.class, new String[] {"a", "theMinecraft"}).get(null);
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+	}
     
     /**
      * CraftingManager access class so mods can register recipes (original CraftingManager has functions without modifiers
@@ -27,9 +43,7 @@ public class PackageAccess {
 		public void addRecipe(ItemStack itemstack, Object aobj[]) {
 			try {
 				net.minecraft.src.CraftingManager cf = net.minecraft.src.CraftingManager.getInstance();
-				Method addRecipe = ReflectionHelper.findMethod(net.minecraft.src.CraftingManager.class, cf, new String[] {"a", "addRecipe"}, ItemStack.class, Object[].class);
-				addRecipe.setAccessible(true);
-				addRecipe.invoke(cf, itemstack, aobj);
+				ReflectionHelper.findMethod(net.minecraft.src.CraftingManager.class, cf, new String[] {"a", "addRecipe"}, ItemStack.class, Object[].class).invoke(cf, itemstack, aobj);
 			} catch (Exception e) {e.printStackTrace();}
 		}
 		private CraftingManager() {}

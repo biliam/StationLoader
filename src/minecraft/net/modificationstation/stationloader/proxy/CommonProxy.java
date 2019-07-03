@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 import net.modificationstation.stationloader.StationLoader;
+import net.modificationstation.stationmodloader.events.MCInitializationEvent;
 import net.modificationstation.stationmodloader.events.MCPreInitializationEvent;
 
 /**
@@ -14,6 +15,7 @@ import net.modificationstation.stationmodloader.events.MCPreInitializationEvent;
  *
  */
 public class CommonProxy {
+	
 	public void preInit(MCPreInitializationEvent event) {
 	    try {
 	        Field logger = StationLoader.class.getDeclaredField("LOGGER");
@@ -23,4 +25,6 @@ public class CommonProxy {
 	        logger.set(StationLoader.INSTANCE, event.getModLog());
 	    } catch (Exception e) {e.printStackTrace();}
 	}
+
+	public void init(MCInitializationEvent event) {}
 }

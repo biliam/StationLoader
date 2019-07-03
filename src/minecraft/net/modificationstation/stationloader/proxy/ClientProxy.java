@@ -1,7 +1,10 @@
 package net.modificationstation.stationloader.proxy;
+
 import net.modificationstation.stationloader.client.gui.GuiHandler;
-import net.modificationstation.stationloader.events.common.EventsManager;
+import net.modificationstation.stationloader.events.EventsManager;
+import net.modificationstation.stationmodloader.events.MCInitializationEvent;
 import net.modificationstation.stationmodloader.events.MCPreInitializationEvent;
+import net.modificationstation.stationmodloader.transformers.MixtureTransformer;
 
 /**
  * ClientProxy for StationLoader that registers all client-side-only stuff, like GuiHandler to customize GuiMainMenu
@@ -9,10 +12,18 @@ import net.modificationstation.stationmodloader.events.MCPreInitializationEvent;
  * @author mine_diver
  *
  */
-public class ClientProxy extends CommonProxy{
+public final class ClientProxy extends CommonProxy {
+	
 	@Override
-	public void preInit(MCPreInitializationEvent event) {
-		EventsManager.register(new GuiHandler());
+	public final void preInit(MCPreInitializationEvent event) {
 		super.preInit(event);
+		MixtureTransformer.registerMixture("net.modificationstation.stationloader.mixtures.EntityRendererMixture");
+		MixtureTransformer.registerMixture("net.modificationstation.stationloader.mixtures.GuiScreenMixture");
+	}
+	
+	@Override
+	public final void init(MCInitializationEvent event) {
+		super.init(event);
+		EventsManager.register(new GuiHandler());
 	}
 }

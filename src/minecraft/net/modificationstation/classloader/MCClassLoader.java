@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
+import net.modificationstation.stationmodloader.transformers.MixtureTransformer;
+
 /**
  * Minecraft ClassLoader
  * 
@@ -44,6 +46,7 @@ public class MCClassLoader extends URLClassLoader
         this.transformers = new ArrayList<IClassTransformer>(2);
         ReflectionHelper.setPrivateValue(ClassLoader.class, null, this, "scl");
         Thread.currentThread().setContextClassLoader(this);
+        //registerTransformer("net.modificationstation.stationmodloader.transformers.MixtureTransformer");
     }
     
     /**

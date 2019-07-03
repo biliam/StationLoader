@@ -22,7 +22,7 @@ public class EventsInjectorTransformer implements IClassTransformer{
      * List of patched classes
      */
     public static final List<String> transformedClasses = Arrays.asList(new String[] {
-            "net.minecraft.src.GuiScreen",
+            "net.miecraft.src.GuiScreen",
             "net.minecraft.src.EntityRenderer"
     });
     

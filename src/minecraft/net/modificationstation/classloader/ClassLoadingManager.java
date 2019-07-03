@@ -24,6 +24,9 @@ public final class ClassLoadingManager {
         Log.info("Finished loading libraries");
         Log.info("Loading core mods");
         try {
+            ((CoreModLoader)CoreModLoader.INSTANCE).loadMod(Class.forName("net.modificationstation.stationmodloader.StationModLoader", false, ClassLoaderReplacer.INSTANCE.classLoader));
+        } catch (Exception e) {System.out.println("Failed to load StationModLoader core mod! Skipping");e.printStackTrace();}
+        try {
             ((CoreModLoader)CoreModLoader.INSTANCE).loadMod(Class.forName("net.modificationstation.stationloader.coremod.StationCoreMod", false, ClassLoaderReplacer.INSTANCE.classLoader));
         } catch (Exception e) {System.out.println("Failed to load StationLoader core mod! Skipping");e.printStackTrace();}
         CoreModLoader.INSTANCE.discoverAndLoad();
@@ -71,9 +74,18 @@ public final class ClassLoadingManager {
             loadedCoreMods[i] = prevLoadedCoreMods[i];
         loadedCoreMods[prevLoadedCoreMods.length] = coremod;
     }
+    private boolean isObfuscated() {
+    	try {
+    		Class.forName("net.minecraft.src.World");
+    		return false;
+    	} catch (Exception e) {
+    		return true;
+    	}
+    }
     private ClassLoadingManager() {}
     public static final ClassLoadingManager INSTANCE = new ClassLoadingManager();
     private static boolean init = false;
+    public final boolean obfuscated = isObfuscated();
     static String logFile;
     private File minecraftDir;
     private ICoreMod loadedCoreMods[] = new ICoreMod[0];

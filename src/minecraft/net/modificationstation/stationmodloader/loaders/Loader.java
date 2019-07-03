@@ -33,6 +33,7 @@ public class Loader implements ILoader {
 			        Enumeration<JarEntry> modClasses = modJar.entries();
 			        while (modClasses.hasMoreElements()) {
 			            JarEntry modClass = modClasses.nextElement();
+		                StationModLoader.LOGGER.info(modClass.getName());
 			            try {
 			                Class<?> clazz = Class.forName(modClass.getName().replace(".class", "").replace("/", "."), false, getClass().getClassLoader());
 			                if (clazz.isAnnotationPresent(Mod.class)) {
@@ -51,7 +52,7 @@ public class Loader implements ILoader {
     	StationModLoader.LOGGER.info("Loading a mod (" + clazz.getName() + ")");
         Mod mod = clazz.getDeclaredAnnotation(Mod.class);
         if (mod.clientSideOnly() && mod.serverSideOnly()) {
-        	StationModLoader.LOGGER.warning("A broken mod detected! Mod can't be both server and client side only. Ingoring");
+        	StationModLoader.LOGGER.warning("A broken mod detected! Mod can't be both server and client side only. Ignoring");
         	return;
         }
         if ((Side.current() == Side.CLIENT && mod.serverSideOnly()) || (Side.current() == Side.SERVER && mod.clientSideOnly())) {

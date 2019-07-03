@@ -3,6 +3,7 @@ package net.modificationstation.stationloader;
 import java.util.logging.Logger;
 
 import net.modificationstation.stationloader.proxy.CommonProxy;
+import net.modificationstation.stationmodloader.events.MCInitializationEvent;
 import net.modificationstation.stationmodloader.events.MCPreInitializationEvent;
 import net.modificationstation.stationmodloader.util.Mod;
 import net.modificationstation.stationmodloader.util.Mod.EventHandler;
@@ -29,5 +30,10 @@ public class StationLoader {
 	@EventHandler
 	private final void preInit(MCPreInitializationEvent event) {
 		PROXY.preInit(event);
+	}
+	
+	@EventHandler
+	private final void init(MCInitializationEvent event) {
+		PROXY.init(event);
 	}
 }

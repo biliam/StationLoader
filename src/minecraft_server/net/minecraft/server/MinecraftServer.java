@@ -1,6 +1,7 @@
 // Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) braces deadcode 
+// Source File Name:   SourceFile
 
 package net.minecraft.server;
 
@@ -44,7 +45,6 @@ import net.minecraft.src.WorldManager;
 import net.minecraft.src.WorldProvider;
 import net.minecraft.src.WorldServer;
 import net.minecraft.src.WorldServerMulti;
-import net.modificationstation.stationloader.StationHooks;
 
 public class MinecraftServer
     implements Runnable, ICommandListener
@@ -128,9 +128,6 @@ public class MinecraftServer
         logger.info((new StringBuilder()).append("Preparing level \"").append(s1).append("\"").toString());
         initWorld(new SaveConverterMcRegion(new File(".")), s1, l1);
         logger.info((new StringBuilder()).append("Done (").append(System.nanoTime() - l).append("ns)! For help, type \"help\" or \"?\"").toString());
-        /** v StationLoader v*/
-        StationHooks.postInit();
-        /** ^ StationLoader ^*/
         return true;
     }
 
@@ -423,9 +420,6 @@ label0:
 
     public static void main(String args[])
     {
-        /** v StationLoader v*/
-        StationHooks.onMainCalled(args);
-        /** ^ StationLoader ^*/
         StatList.func_27092_a();
         try
         {

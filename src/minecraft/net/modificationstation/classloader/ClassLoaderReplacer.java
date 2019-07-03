@@ -11,10 +11,10 @@ import java.net.URLClassLoader;
  * @author mine_diver
  * 
  */
-final class ClassLoaderReplacer
+public final class ClassLoaderReplacer
 {
-    static final ClassLoaderReplacer INSTANCE = new ClassLoaderReplacer();
-    final MCClassLoader classLoader;
+    public static final ClassLoaderReplacer INSTANCE = new ClassLoaderReplacer();
+    public final MCClassLoader classLoader;
     private Object newApplet;
     private Class<? super Object> appletClass;
 

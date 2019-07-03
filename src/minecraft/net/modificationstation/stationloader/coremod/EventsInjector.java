@@ -125,8 +125,8 @@ public class EventsInjector {
      * @param eventPath
      */
     private static void addEvent(InsnList toAdd, String eventPath) {
-        toAdd.add(new FieldInsnNode(GETSTATIC, eventPath, "EVENT", "Lnet/modificationstation/stationloader/events/common/Event;"));
-        toAdd.add(new MethodInsnNode(INVOKEVIRTUAL, "net/modificationstation/stationloader/events/common/Event", "getInvoker", "()Ljava/lang/Object;", false));
+        toAdd.add(new FieldInsnNode(GETSTATIC, eventPath, "EVENT", "Lnet/modificationstation/stationloader/events/Event;"));
+        toAdd.add(new MethodInsnNode(INVOKEVIRTUAL, "net/modificationstation/stationloader/events/Event", "getInvoker", "()Ljava/lang/Object;", false));
         toAdd.add(new TypeInsnNode(CHECKCAST, eventPath));
     }
     

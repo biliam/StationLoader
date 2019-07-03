@@ -1,21 +1,16 @@
 // Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) braces deadcode 
+// Source File Name:   SourceFile
 
 package net.minecraft.client;
 
 import java.awt.*;
 import java.io.File;
+import java.io.PrintStream;
 import net.minecraft.src.*;
 import net.modificationstation.classloader.ClassLoadingManager;
-import net.modificationstation.classloader.MCClassLoader;
 import net.modificationstation.classloader.Side;
-import net.modificationstation.stationloader.events.client.gui.guiscreen.PostGuiScreenDisplay;
-import net.modificationstation.stationloader.events.client.gui.guiscreen.PreDisplayGuiScreen;
-import net.modificationstation.stationmodloader.StationModLoader;
-import net.modificationstation.stationmodloader.events.MCInitializationEvent;
-import net.modificationstation.stationmodloader.events.MCPostInitializationEvent;
-import net.modificationstation.stationmodloader.events.MCPreInitializationEvent;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.*;
@@ -72,9 +67,6 @@ public abstract class Minecraft
             hideQuitButton = false;
         }
         theMinecraft = this;
-        /** v StationLoader v*/
-        new MCPreInitializationEvent().process();
-        /** ^ StationLoader ^*/
     }
 
     public void onMinecraftCrash(UnexpectedThrowable unexpectedthrowable)
@@ -94,9 +86,6 @@ public abstract class Minecraft
     public void startGame()
         throws LWJGLException
     {
-        /** v StationLoader v*/
-        new MCInitializationEvent().process();
-        /** ^ StationLoader ^*/
         if(mcCanvas != null)
         {
             Graphics g = mcCanvas.getGraphics();
@@ -146,9 +135,9 @@ public abstract class Minecraft
         texturePackList = new TexturePackList(this, mcDataDir);
         renderEngine = new RenderEngine(texturePackList, gameSettings);
         fontRenderer = new FontRenderer(gameSettings, "/font/default.png", renderEngine);
-        ColorizerWater.func_28182_a(renderEngine.func_28149_a("/misc/watercolor.png"));
-        ColorizerGrass.func_28181_a(renderEngine.func_28149_a("/misc/grasscolor.png"));
-        ColorizerFoliage.func_28152_a(renderEngine.func_28149_a("/misc/foliagecolor.png"));
+        ColorizerWater.setWaterBiomeColorizer(renderEngine.func_28149_a("/misc/watercolor.png"));
+        ColorizerGrass.setGrassBiomeColorizer(renderEngine.func_28149_a("/misc/grasscolor.png"));
+        ColorizerFoliage.setFoliageBiomeColorizer(renderEngine.func_28149_a("/misc/foliagecolor.png"));
         entityRenderer = new EntityRenderer(this);
         RenderManager.instance.itemRenderer = new ItemRenderer(this);
         statFileWriter = new StatFileWriter(session, mcDataDir);
@@ -207,9 +196,6 @@ public abstract class Minecraft
         {
             displayGuiScreen(new GuiMainMenu());
         }
-        /** v StationLoader v*/
-        new MCPostInitializationEvent().process();
-        /** ^ StationLoader ^*/
     }
 
     private void loadScreen()
@@ -219,7 +205,7 @@ public abstract class Minecraft
         GL11.glClear(16640);
         GL11.glMatrixMode(5889 /*GL_PROJECTION*/);
         GL11.glLoadIdentity();
-        GL11.glOrtho(0.0D, scaledresolution.field_25121_a, scaledresolution.field_25120_b, 0.0D, 1000D, 3000D);
+        GL11.glOrtho(0.0D, scaledresolution.scaledWidthD, scaledresolution.scaledHeightD, 0.0D, 1000D, 3000D);
         GL11.glMatrixMode(5888 /*GL_MODELVIEW0_ARB*/);
         GL11.glLoadIdentity();
         GL11.glTranslatef(0.0F, 0.0F, -2000F);
@@ -349,9 +335,6 @@ public abstract class Minecraft
 
     public void displayGuiScreen(GuiScreen guiscreen)
     {
-        /** v StationLoader v*/
-        guiscreen = PreDisplayGuiScreen.EVENT.getInvoker().preDisplayGuiScreen(guiscreen);
-        /** ^ StationLoader ^*/
         if(currentScreen instanceof GuiUnused)
         {
             return;
@@ -386,9 +369,6 @@ public abstract class Minecraft
             int j = scaledresolution.getScaledHeight();
             guiscreen.setWorldAndResolution(this, i, j);
             skipRenderWorld = false;
-            /** v StationLoader v*/
-            PostGuiScreenDisplay.EVENT.getInvoker().postGuiScreenDisplay(guiscreen, scaledresolution, i, j);
-            /** ^ StationLoader ^*/
         } else
         {
             setIngameFocus();
@@ -622,7 +602,7 @@ public abstract class Minecraft
         try
         {
             System.gc();
-            AxisAlignedBB.func_28196_a();
+            AxisAlignedBB.clearBoundingBoxes();
             Vec3D.func_28215_a();
         }
         catch(Throwable throwable1) { }
@@ -861,7 +841,7 @@ public abstract class Minecraft
                 } else
                 if(itemstack1.stackSize != j1)
                 {
-                    entityRenderer.itemRenderer.func_9449_b();
+                    entityRenderer.itemRenderer.resetEquippedProgress();
                 }
             }
         }
@@ -870,7 +850,7 @@ public abstract class Minecraft
             ItemStack itemstack = thePlayer.inventory.getCurrentItem();
             if(itemstack != null && playerController.sendUseItem(thePlayer, theWorld, itemstack))
             {
-                entityRenderer.itemRenderer.func_9450_c();
+                entityRenderer.itemRenderer.resetEquippedProgress2();
             }
         }
     }
@@ -1027,11 +1007,11 @@ public abstract class Minecraft
             currentScreen.handleInput();
             if(currentScreen != null)
             {
-                currentScreen.field_25091_h.func_25088_a();
+                currentScreen.guiParticles.func_25088_a();
                 currentScreen.updateScreen();
             }
         }
-        if(currentScreen == null || currentScreen.field_948_f)
+        if(currentScreen == null || currentScreen.allowUserInput)
         {
             do
             {
@@ -1046,7 +1026,7 @@ public abstract class Minecraft
                     if(k != 0)
                     {
                         thePlayer.inventory.changeCurrentItem(k);
-                        if(gameSettings.field_22275_C)
+                        if(gameSettings.noclip)
                         {
                             if(k > 0)
                             {
@@ -1056,7 +1036,7 @@ public abstract class Minecraft
                             {
                                 k = -1;
                             }
-                            gameSettings.field_22272_F += (float)k * 0.25F;
+                            gameSettings.noclipRate += (float)k * 0.25F;
                         }
                     }
                     if(currentScreen == null)
@@ -1404,7 +1384,7 @@ public abstract class Minecraft
 
     private void convertMapFormat(String s, String s1)
     {
-        loadingScreen.printText((new StringBuilder()).append("Converting World to ").append(saveLoader.func_22178_a()).toString());
+        loadingScreen.printText((new StringBuilder()).append("Converting World to ").append(saveLoader.getWorldFormat()).toString());
         loadingScreen.displayLoadingString("This may take a while :)");
         saveLoader.convertMapFormat(s, loadingScreen);
         startWorld(s, s1, 0L);
@@ -1478,7 +1458,7 @@ public abstract class Minecraft
         return glCapabilities;
     }
 
-    public String func_6241_m()
+    public String debugInfoRenders()
     {
         return renderGlobal.getDebugInfoRenders();
     }
@@ -1493,7 +1473,7 @@ public abstract class Minecraft
         return theWorld.func_21119_g();
     }
 
-    public String func_6245_o()
+    public String debugInfoEntities()
     {
         return (new StringBuilder()).append("P: ").append(effectRenderer.getStatistics()).append(". T: ").append(theWorld.func_687_d()).toString();
     }
@@ -1608,13 +1588,10 @@ public abstract class Minecraft
             return null;
         }
     }
-    /** v StationLoader v: we're hooking into classloading process here, so we can transform classes in runtime, redirect classes calls, etc*/
+
     public static void main(String args[])
     {
-        ClassLoadingManager.INSTANCE.init(args, Side.CLIENT);
-        /** v StationLoader v*/
-        StationModLoader.init();
-        /** ^ StationLoader ^*/
+    	ClassLoadingManager.INSTANCE.init(args, Side.CLIENT);
         String s = null;
         String s1 = null;
         s = (new StringBuilder()).append("Player").append(System.currentTimeMillis() % 1000L).toString();
@@ -1657,9 +1634,7 @@ public abstract class Minecraft
     }
 
     public static byte field_28006_b[] = new byte[0xa00000];
-    /** v StationLoader v: +public*/
-    public static Minecraft theMinecraft;
-    /** ^ StationLoader ^*/
+    private static Minecraft theMinecraft;
     public PlayerController playerController;
     private boolean fullscreen;
     private boolean hasCrashed;

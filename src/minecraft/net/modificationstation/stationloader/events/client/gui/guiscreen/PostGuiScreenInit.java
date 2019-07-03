@@ -1,8 +1,8 @@
 package net.modificationstation.stationloader.events.client.gui.guiscreen;
 
 import net.minecraft.src.GuiScreen;
-import net.modificationstation.stationloader.events.common.Event;
-import net.modificationstation.stationloader.events.common.InstancedEvent;
+import net.modificationstation.stationloader.events.Event;
+import net.modificationstation.stationloader.events.InstancedEvent;
 
 /**
  * Event that is called after GuiScreen's init (some GuiScreens clear buttons on init, so everything added on GuiScreenInit event

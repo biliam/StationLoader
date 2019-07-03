@@ -1,8 +1,8 @@
 package net.modificationstation.stationloader.events.client.gui.guiscreen;
 
 import net.minecraft.src.GuiScreen;
-import net.modificationstation.stationloader.events.common.Event;
-import net.modificationstation.stationloader.events.common.InstancedEvent;
+import net.modificationstation.stationloader.events.Event;
+import net.modificationstation.stationloader.events.InstancedEvent;
 
 /**
  * Event that is called when Minecraft is about to display another GuiScreen

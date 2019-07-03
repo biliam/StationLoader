@@ -11,11 +11,11 @@ cleanup.bat
 decompile.bat
 recompile.bat
 reobfuscate.bat
+setup.bat
 startclient.bat
 startserver.bat
 updatemcp.bat
 updatemd5.bat
-updatenames.bat
 src/minecraft/net/minecraft/src
 src/minecraft_server/net/minecraft/src
 eclipse/\.metadata/

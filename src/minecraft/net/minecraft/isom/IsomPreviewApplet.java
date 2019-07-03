@@ -1,6 +1,7 @@
 // Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) braces deadcode 
+// Source File Name:   SourceFile
 
 package net.minecraft.isom;
 
@@ -20,7 +21,7 @@ public class IsomPreviewApplet extends Applet
 
     public void start()
     {
-        a.func_1272_b();
+        a.startThreads();
     }
 
     public void stop()
