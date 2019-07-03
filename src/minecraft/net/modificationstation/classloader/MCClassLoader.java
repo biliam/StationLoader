@@ -34,7 +34,7 @@ public class MCClassLoader extends URLClassLoader
     private final List<URL> sources;
     private final ClassLoader parent;
 
-    private final List<IClassTransformer> transformers;
+    public final List<IClassTransformer> transformers;
     private final Map<String, Class<?>> cachedClasses;
 
     MCClassLoader(URL[] sources)

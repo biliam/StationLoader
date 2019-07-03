@@ -7,7 +7,6 @@ import net.minecraft.src.Material;
 import net.modificationstation.stationmodloader.mixture.Mixture;
 import net.modificationstation.stationmodloader.mixture.Mixture.Intervene;
 import net.modificationstation.stationmodloader.mixture.Mixture.Intervene.ShiftType;
-import net.modificationstation.stationmodloader.mixture.Mixture.Redirect;
 
 @Mixture(EntityRenderer.class)
 public class EntityRendererMixture extends EntityRenderer {
@@ -32,10 +31,7 @@ public class EntityRendererMixture extends EntityRenderer {
         return f1 + prevDebugCamFOV + (debugCamFOV - prevDebugCamFOV) * f;
 	}
 	
-	@Redirect(obfuscated = "j")
 	private Minecraft mc;
-	@Redirect(obfuscated = "j")
 	private float prevDebugCamFOV;
-	@Redirect(obfuscated = "j")
 	private float debugCamFOV;
 }

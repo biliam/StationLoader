@@ -3,7 +3,6 @@ package net.modificationstation.stationmodloader.transformers;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,7 +13,6 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
-import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.MethodNode;
 
@@ -79,7 +77,7 @@ public class MixtureTransformer implements IClassTransformer {
 							if (targetMethod.desc.equals(method.desc) && targetMethod.name.equals(method.name)) {
 								InsnList instructions = new InsnList();
 								instructions.add(method.instructions);
-								applyRedirect(instructions, mixtureNode.fields, mixtureNode.name, targetNode.name);
+								applyRedirect(instructions, mixtureNode.name, targetNode.name);
 								if (mAnn.values != null)
 									for (int i = 0; i < mAnn.values.size(); i+=2) {
 										if (((String)mAnn.values.get(i)).equals("shift")) {
@@ -112,19 +110,10 @@ public class MixtureTransformer implements IClassTransformer {
 					}
 	}
 	
-	private void applyRedirect(InsnList instructions, List<FieldNode> fields, String redirectFrom, String redirectTo) {
+	private void applyRedirect(InsnList instructions, String redirectFrom, String redirectTo) {
 		Iterator<AbstractInsnNode> instructionIt = instructions.iterator();
 		for (AbstractInsnNode insn = instructionIt.next();instructionIt.hasNext();insn = instructionIt.next())
-			if (insn.getOpcode() == GETFIELD && ((FieldInsnNode)insn).owner.equals(redirectFrom)) {
-				FieldInsnNode fieldNode = (FieldInsnNode) insn;
-				System.out.println(fieldNode.name);
-				System.out.println(fieldNode.invisibleTypeAnnotations);
-				System.out.println(fieldNode.visibleTypeAnnotations);
-				if (fieldNode.invisibleTypeAnnotations != null)
-					for (AnnotationNode ann : fieldNode.invisibleTypeAnnotations) {
-						System.out.println(ann.desc);
-					}
+			if (insn.getOpcode() == GETFIELD && ((FieldInsnNode)insn).owner.equals(redirectFrom))
 				((FieldInsnNode)insn).owner = redirectTo;
-			}
 	}
 }
