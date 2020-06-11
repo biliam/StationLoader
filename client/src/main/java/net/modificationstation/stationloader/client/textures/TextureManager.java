@@ -21,14 +21,10 @@ import java.util.Map;
 public class TextureManager {
 
     public static int registerTexture(TextureRegistries type, String pathToImage) {
-        try {
-            ModTextureStatic texture = new ModTextureStatic(type, pathToImage);
-            textures = Arrays.copyOf(textures, textures.length + 1);
-            textures[textures.length - 1] = texture;
-            return texture.atlasID * type.texturesPerFile() + texture.iconIndex;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        ModTextureStatic texture = new ModTextureStatic(type, pathToImage);
+        textures = Arrays.copyOf(textures, textures.length + 1);
+        textures[textures.length - 1] = texture;
+        return texture.atlasID * type.texturesPerFile() + texture.iconIndex;
     }
 
     public static void registerAllTextures(RenderEngine renderEngine) throws IOException {
