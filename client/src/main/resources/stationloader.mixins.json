@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "package": "net.modificationstation.stationloader.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "common.CraftingManagerInvoker",
+    "common.MixinBlock",
+    "common.MixinCraftingManager"
+  ],
+  "client": [
+    "client.EntityFXAccessor",
+    "client.MixinEffectRenderer",
+    "client.MixinMinecraft",
+    "client.MixinMinecraftApplet",
+    "client.MixinRenderBlocks",
+    "client.MixinTessellator",
+    "client.MixinWorldRenderer",
+    "client.RenderEngineAccessor",
+    "client.TessellatorAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

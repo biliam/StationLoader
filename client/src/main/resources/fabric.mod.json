@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "stationloader",
+  "version": "${version}",
+
+  "name": "StationLoader",
+  "description": "Fabric based mod API for legacy Minecraft versions",
+  "authors": [
+    "mine_diver"
+  ],
+  "contact": {
+    "sources": "https://github.com/ModificationStation/StationLoader",
+    "discord": "https://discord.gg/8Qky5XY"
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/examplemod/icon.png",
+
+  "environment": "*",
+  "mixins": [
+    "stationloader.mixins.json"
+  ],
+
+  "depends": {
+  }
+}

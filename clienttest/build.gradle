@@ -1,0 +1,10 @@
+minecraft {
+    side = "client"
+}
+
+dependencies {
+    //to change the versions see the gradle.properties file
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.mcp(loom.BETA, "${project.minecraft_version}.client", loom.mediafire("http://www.mediafire.com/file/03d94f13c9ulj5a/mcp43.zip/file"))
+    compile project(':client')
+}
