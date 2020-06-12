@@ -13,7 +13,6 @@
     "client.MixinMinecraft",
     "client.MixinMinecraftApplet",
     "client.MixinRenderBlocks",
-    "client.MixinWorldRenderer",
     "client.RenderEngineAccessor",
     "client.TessellatorAccessor"
   ],
