@@ -4,7 +4,6 @@ import net.mine_diver.testmod.blocks.ModdedBlock;
 import net.minecraft.src.Block;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
-import net.modificationstation.stationloader.client.textures.ModTextureStatic;
 import net.modificationstation.stationloader.client.textures.TextureManager;
 import net.modificationstation.stationloader.client.textures.TextureRegistries;
 import net.modificationstation.stationloader.common.api.StationMod;

@@ -4,10 +4,8 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.GLAllocation;
 import net.minecraft.src.RenderEngine;
-import net.minecraft.src.Tessellator;
 import net.minecraft.src.TexturePackBase;
 import net.modificationstation.stationloader.mixin.client.RenderEngineAccessor;
-import net.modificationstation.stationloader.mixin.client.TessellatorAccessor;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -65,17 +63,9 @@ public class TextureManager {
             spriteIDs.put(type, type.texturesPerFile() - 1);
         int ID = spriteIDs.get(type) + 1;
         spriteIDs.put(type, ID);
-        if (type.equals(TextureRegistries.TERRAIN)) {
-            if (!atlasTessellators.containsKey(type))
-                atlasTessellators.put(type, new HashMap<>());
-            Map<Integer, Tessellator> tessellators = atlasTessellators.get(type);
-            if (!tessellators.containsKey(ID))
-                tessellators.put(ID, TessellatorAccessor.createTessellator(0));
-        }
         return ID;
     }
 
     private static ModTextureStatic[] textures = new ModTextureStatic[0];
     private static final Map<TextureRegistries, Integer> spriteIDs = new HashMap<>();
-    private static final Map<TextureRegistries, Map<Integer, Tessellator>> atlasTessellators = new HashMap<>();
 }

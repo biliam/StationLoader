@@ -2,7 +2,6 @@ package net.modificationstation.stationloader.mixin.client;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.Block;
 import net.minecraft.src.RenderBlocks;
 import net.minecraft.src.Tessellator;
 import net.modificationstation.stationloader.client.textures.TextureManager;
@@ -32,22 +31,24 @@ public class MixinRenderBlocks {
 
     @ModifyVariable(method = "renderTorchAtAngle(Lnet/minecraft/src/Block;DDDDD)V", index = 13, at = @At(value = "CONSTANT", args = "intValue=4", ordinal = 0, shift = At.Shift.BEFORE))
     private int getTextureIDTorch(int texID) {
-        //inventory = true;
-        int ret = overrideTexture(texID);
-        //inventory = false;
-        return ret;
+        return overrideTexture(texID);
     }
 
     private int overrideTexture(int texID) {
         int atlasID = texID / TERRAIN.texturesPerFile();
         if (currentTexture != atlasID) {
             Tessellator tessellator = Tessellator.instance;
-            if (!inventory)
+            boolean hasColor = false;
+            if (!inventory) {
+                hasColor = ((TessellatorAccessor) tessellator).getHasColor();
                 tessellator.draw();
+            }
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, TextureManager.getAtlasTexture(((Minecraft) FabricLoader.getInstance().getGameInstance()).renderEngine, TERRAIN, atlasID));
             currentTexture = atlasID;
-            if (!inventory)
+            if (!inventory) {
                 tessellator.startDrawingQuads();
+                ((TessellatorAccessor) tessellator).setHasColor(hasColor);
+            }
         }
         return texID % TERRAIN.texturesPerFile();
     }
