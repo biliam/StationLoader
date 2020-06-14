@@ -4,8 +4,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.RenderBlocks;
 import net.minecraft.src.Tessellator;
-import net.modificationstation.stationloader.client.textures.TextureManager;
-import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
