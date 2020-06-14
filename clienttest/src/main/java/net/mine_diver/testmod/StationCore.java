@@ -22,7 +22,7 @@ public class StationCore implements StationMod, BlockRegister, RecipeRegister {
 
     @Override
     public void registerBlocks() {
-        testBlock = new ModdedBlock(150, TextureManager.registerTexture(TextureRegistries.TERRAIN, "/assets/testmod/textures/bruh_testBlock.png"), Material.cloth).setBlockName("testBlock");
+        testBlock = new ModdedBlock(150, TextureManager.addTexture(TextureRegistries.TERRAIN, "/assets/testmod/textures/bruh_testBlock.png"), Material.cloth).setBlockName("testBlock");
         getLogger().info("Registered block!");
     }
 

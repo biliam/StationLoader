@@ -1,36 +1,72 @@
 package net.modificationstation.stationloader.client.textures;
 
+import net.minecraft.src.RenderEngine;
+import net.modificationstation.stationloader.event.client.textures.TexturesPerFileListener;
+import org.lwjgl.opengl.GL11;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 public enum TextureRegistries {
 
     TERRAIN("/terrain.png", 256),
     GUI_ITEMS("/gui/items.png", 256);
 
     TextureRegistries(String path, int texturesPerFile) {
-        this.path = path;
-        this.texturesPerFile = Integer.toUnsignedLong(texturesPerFile);
-    }
-
-    public String path() {
-        return path;
+        this.texturesPerFile = (short) texturesPerFile;
+        addAtlas(path);
     }
 
     public int texturesPerFile() {
-        return (int) texturesPerFile;
+        return Short.toUnsignedInt(texturesPerFile);
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public String getAtlas(int ID) {
+        return atlasIDToPath.get(ID);
+    }
+
+    public int getAtlasID(String path) {
+        return atlasPathToID.get(path);
+    }
+
+    public int addAtlas(String atlas) {
+        atlas = String.format(atlas, nextAtlasID);
+        atlasPathToID.put(atlas, nextAtlasID);
+        atlasIDToPath.put(nextAtlasID, atlas);
+        int ret = nextAtlasID;
+        nextAtlasID++;
+        return ret;
     }
 
     public void setTexturesPerFile(int texturesPerFile) {
-        this.texturesPerFile = Integer.toUnsignedLong(texturesPerFile);
+        if (this.texturesPerFile != (short) texturesPerFile) {
+            this.texturesPerFile = (short) texturesPerFile;
+            TexturesPerFileListener.EVENT.getInvoker().texturesPerFileChanged(this);
+        }
+    }
+
+    public int getAtlasTexture(RenderEngine renderEngine, int ID) {
+        return renderEngine.getTexture(getAtlas(ID));
+    }
+
+    public void bindAtlas(RenderEngine renderEngine, int ID) {
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, getAtlasTexture(renderEngine, ID));
+        currentTexture = ID;
+    }
+
+    public int currentTexture() {
+        return currentTexture;
     }
 
     @Override
     public String toString() {
-        return path();
+        return name() + ", " + Arrays.toString(atlasPathToID.values().toArray()) + ", textures per file: " + texturesPerFile;
     }
 
-    private String path;
-    private long texturesPerFile;
+    private final Map<Integer, String> atlasIDToPath = new HashMap<>();
+    private final Map<String, Integer> atlasPathToID = new HashMap<>();
+    private int nextAtlasID;
+    private short texturesPerFile;
+    private int currentTexture;
 }

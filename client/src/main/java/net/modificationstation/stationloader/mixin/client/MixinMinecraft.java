@@ -19,6 +19,6 @@ public class MixinMinecraft {
 
     @Inject(method = "startGame", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Minecraft;renderGlobal:Lnet/minecraft/src/RenderGlobal;", opcode = Opcodes.PUTFIELD))
     private void afterTextureFXRegister(CallbackInfo ci) throws IOException {
-        TextureManager.registerAllTextures(renderEngine);
+        TextureManager.setupAllTextures(renderEngine);
     }
 }

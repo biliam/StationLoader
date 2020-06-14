@@ -35,8 +35,7 @@ public class MixinEffectRenderer {
             if (currentTexture != atlasID) {
                 Tessellator tessellator = Tessellator.instance;
                 tessellator.draw();
-                GL11.glBindTexture(GL11.GL_TEXTURE_2D, TextureManager.getAtlasTexture(renderer, TERRAIN, atlasID));
-                currentTexture = atlasID;
+                TERRAIN.bindAtlas(renderer, atlasID);
                 tessellator.startDrawingQuads();
             }
         }

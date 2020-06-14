@@ -31,8 +31,8 @@ public class ModTextureStatic extends TextureFX {
     public void setup() throws IOException {
         Minecraft mc = (Minecraft) FabricLoader.getInstance().getGameInstance();
         bindImage(mc.renderEngine);
-        int l = GL11.glGetTexLevelParameteri(3553 /*GL_TEXTURE_2D*/, 0, 4096 /*GL_TEXTURE_WIDTH*/) / 16;
-        int i1 = GL11.glGetTexLevelParameteri(3553 /*GL_TEXTURE_2D*/, 0, 4097 /*GL_TEXTURE_HEIGHT*/) / 16;
+        int l = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D, 0, 4096 /*GL_TEXTURE_WIDTH*/) / 16;
+        int i1 = GL11.glGetTexLevelParameteri(GL11.GL_TEXTURE_2D /*GL_TEXTURE_2D*/, 0, 4097 /*GL_TEXTURE_HEIGHT*/) / 16;
         BufferedImage bufferedimage = ImageIO.read(mc.texturePackList.selectedTexturePack.getResourceAsStream(pathToImage));
         int j1 = bufferedimage.getWidth();
         int k1 = bufferedimage.getHeight();
@@ -76,7 +76,7 @@ public class ModTextureStatic extends TextureFX {
 
     @Override
     public void bindImage(RenderEngine renderEngine) {
-        GL11.glBindTexture(3553, TextureManager.getAtlasTexture(renderEngine, type, atlasID));
+        type.bindAtlas(renderEngine, atlasID);
     }
 
     private final TextureRegistries type;

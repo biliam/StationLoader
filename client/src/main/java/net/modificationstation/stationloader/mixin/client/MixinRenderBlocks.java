@@ -36,15 +36,14 @@ public class MixinRenderBlocks {
 
     private int overrideTexture(int texID) {
         int atlasID = texID / TERRAIN.texturesPerFile();
-        if (currentTexture != atlasID) {
+        if (TERRAIN.currentTexture() != atlasID) {
             Tessellator tessellator = Tessellator.instance;
             boolean hasColor = false;
             if (!inventory) {
                 hasColor = ((TessellatorAccessor) tessellator).getHasColor();
                 tessellator.draw();
             }
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, TextureManager.getAtlasTexture(((Minecraft) FabricLoader.getInstance().getGameInstance()).renderEngine, TERRAIN, atlasID));
-            currentTexture = atlasID;
+            TERRAIN.bindAtlas(((Minecraft) FabricLoader.getInstance().getGameInstance()).renderEngine, atlasID);
             if (!inventory) {
                 tessellator.startDrawingQuads();
                 ((TessellatorAccessor) tessellator).setHasColor(hasColor);
@@ -56,7 +55,7 @@ public class MixinRenderBlocks {
     @Inject(method = "renderBlockOnInventory(Lnet/minecraft/src/Block;IF)V", at = @At("HEAD"))
     private void onRenderBlockInInventory(CallbackInfo ci) {
         inventory = true;
-        currentTexture = 0;
+        //currentTexture = 0;
     }
 
     @Inject(method = "renderBlockOnInventory(Lnet/minecraft/src/Block;IF)V", at = @At("RETURN"))
@@ -64,6 +63,5 @@ public class MixinRenderBlocks {
         inventory = false;
     }
 
-    private int currentTexture;
     private boolean inventory;
 }
