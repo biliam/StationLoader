@@ -11,7 +11,9 @@ import java.util.Map;
 public enum TextureRegistries {
 
     TERRAIN("/terrain.png", 256),
-    GUI_ITEMS("/gui/items.png", 256);
+    PARTICLES("/particles.png", 1024),
+    GUI_ITEMS("/gui/items.png", 256),
+    GUI_PARTICLES("/gui/particles.png", 1024);
 
     TextureRegistries(String path, int texturesPerFile) {
         this.texturesPerFile = (short) texturesPerFile;
@@ -26,7 +28,7 @@ public enum TextureRegistries {
         return atlasIDToPath.get(ID);
     }
 
-    public int getAtlasID(String path) {
+    public Integer getAtlasID(String path) {
         return atlasPathToID.get(path);
     }
 
@@ -53,10 +55,20 @@ public enum TextureRegistries {
     public void bindAtlas(RenderEngine renderEngine, int ID) {
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, getAtlasTexture(renderEngine, ID));
         currentTexture = ID;
+        if (currentBindRegistry != this)
+            currentBindRegistry = this;
+    }
+
+    public static void unbind() {
+        currentBindRegistry = null;
     }
 
     public int currentTexture() {
         return currentTexture;
+    }
+
+    public static TextureRegistries currentBindRegistry() {
+        return currentBindRegistry;
     }
 
     @Override
@@ -64,6 +76,7 @@ public enum TextureRegistries {
         return name() + ", " + Arrays.toString(atlasPathToID.values().toArray()) + ", textures per file: " + texturesPerFile;
     }
 
+    private static TextureRegistries currentBindRegistry;
     private final Map<Integer, String> atlasIDToPath = new HashMap<>();
     private final Map<String, Integer> atlasPathToID = new HashMap<>();
     private int nextAtlasID;

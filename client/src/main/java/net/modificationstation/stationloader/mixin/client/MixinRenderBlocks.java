@@ -4,6 +4,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.RenderBlocks;
 import net.minecraft.src.Tessellator;
+import net.modificationstation.stationloader.client.textures.TextureRegistries;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -33,21 +34,24 @@ public class MixinRenderBlocks {
     }
 
     private int overrideTexture(int texID) {
-        int atlasID = texID / TERRAIN.texturesPerFile();
-        if (TERRAIN.currentTexture() != atlasID) {
-            Tessellator tessellator = Tessellator.instance;
-            boolean hasColor = false;
-            if (!inventory) {
-                hasColor = ((TessellatorAccessor) tessellator).getHasColor();
-                tessellator.draw();
+        if (TextureRegistries.currentBindRegistry() == TERRAIN) {
+            int atlasID = texID / TERRAIN.texturesPerFile();
+            if (TERRAIN.currentTexture() != atlasID) {
+                Tessellator tessellator = Tessellator.instance;
+                boolean hasColor = false;
+                if (!inventory) {
+                    hasColor = ((TessellatorAccessor) tessellator).getHasColor();
+                    tessellator.draw();
+                }
+                TERRAIN.bindAtlas(((Minecraft) FabricLoader.getInstance().getGameInstance()).renderEngine, atlasID);
+                if (!inventory) {
+                    tessellator.startDrawingQuads();
+                    ((TessellatorAccessor) tessellator).setHasColor(hasColor);
+                }
             }
-            TERRAIN.bindAtlas(((Minecraft) FabricLoader.getInstance().getGameInstance()).renderEngine, atlasID);
-            if (!inventory) {
-                tessellator.startDrawingQuads();
-                ((TessellatorAccessor) tessellator).setHasColor(hasColor);
-            }
-        }
-        return texID % TERRAIN.texturesPerFile();
+            return texID % TERRAIN.texturesPerFile();
+        } else
+            return texID;
     }
 
     @Inject(method = "renderBlockOnInventory(Lnet/minecraft/src/Block;IF)V", at = @At("HEAD"))
