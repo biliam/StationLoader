@@ -2,6 +2,7 @@ package net.modificationstation.stationloader.mixin.client;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.RenderEngine;
+import net.modificationstation.stationloader.client.textures.OpenGLHelper;
 import net.modificationstation.stationloader.client.textures.TextureManager;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,5 +29,10 @@ public class MixinMinecraft {
     @Redirect(method = "runTick", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/GL11;glBindTexture(II)V"))
     private void onBindBlocksAtlas(int texture, int textureID) {
         TERRAIN.bindAtlas(renderEngine, 0);
+    }
+
+    @Redirect(method = "loadScreen", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/GL11;glBindTexture(II)V"))
+    private void onBindTexture(int texture, int textureID) {
+        OpenGLHelper.bindTexture(texture, textureID);
     }
 }

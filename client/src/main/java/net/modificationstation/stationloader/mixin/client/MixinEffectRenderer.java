@@ -26,7 +26,7 @@ public class MixinEffectRenderer {
     @Redirect(method = "renderParticles(Lnet/minecraft/src/Entity;F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/src/RenderEngine;getTexture(Ljava/lang/String;)I"))
     private int onGetTexture(RenderEngine renderEngine, String texture) {
         registryToBind = null;
-        if (!TextureRegistries.currentBindRegistry().getAtlas(TextureRegistries.currentBindRegistry().currentTexture()).equals(texture))
+        if (TextureRegistries.currentBindRegistry() == null || !TextureRegistries.currentBindRegistry().getAtlas(TextureRegistries.currentBindRegistry().currentTexture()).equals(texture))
             for (TextureRegistries registry : TextureRegistries.values()) {
                 Integer atlasID = registry.getAtlasID(texture);
                 if (atlasID != null) {

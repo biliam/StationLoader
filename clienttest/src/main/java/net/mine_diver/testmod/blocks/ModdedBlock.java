@@ -22,6 +22,11 @@ public class ModdedBlock extends Block implements ItemBlockProvider {
     }
 
     /*@Override
+    public int getRenderType() {
+        return 11;
+    }*/
+
+    /*@Override
     public int getBlockTextureFromSide(int side) {
         return rand.nextBoolean() ? blockIndexInTexture : 1;
     }*/

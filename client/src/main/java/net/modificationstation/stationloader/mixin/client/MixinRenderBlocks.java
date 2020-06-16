@@ -29,7 +29,37 @@ public class MixinRenderBlocks {
     }
 
     @ModifyVariable(method = "renderTorchAtAngle(Lnet/minecraft/src/Block;DDDDD)V", index = 13, at = @At(value = "CONSTANT", args = "intValue=4", ordinal = 0, shift = At.Shift.BEFORE))
-    private int getTextureIDTorch(int texID) {
+    private int getTorchTextureID(int texID) {
+        return overrideTexture(texID);
+    }
+
+    @ModifyVariable(method = "renderCrossedSquares(Lnet/minecraft/src/Block;IDDD)V", index = 10, at = @At(value = "CONSTANT", args = "intValue=4", ordinal = 0, shift = At.Shift.BEFORE))
+    private int getCrossedTextureID(int texID) {
+        return overrideTexture(texID);
+    }
+
+    @ModifyVariable(method = "func_1245_b(Lnet/minecraft/src/Block;IDDD)V", index = 10, at = @At(value = "CONSTANT", args = "intValue=4", ordinal = 0, shift = At.Shift.BEFORE))
+    private int getCropsTextureID(int texID) {
+        return overrideTexture(texID);
+    }
+
+    @ModifyVariable(method = "renderBlockFire(Lnet/minecraft/src/Block;III)Z", index = 6, at = @At(value = "INVOKE", target = "Lnet/minecraft/src/Block;getBlockBrightness(Lnet/minecraft/src/IBlockAccess;III)F", shift = At.Shift.BEFORE))
+    private int getFireTextureID(int texID) {
+        return overrideTexture(texID);
+    }
+
+    @ModifyVariable(method = "renderBlockRedstoneWire(Lnet/minecraft/src/Block;III)Z", index = 7, at = @At(value = "INVOKE", target = "Lnet/minecraft/src/Block;getBlockBrightness(Lnet/minecraft/src/IBlockAccess;III)F", shift = At.Shift.BEFORE))
+    private int getRedstoneWireTextureID(int texID) {
+        return overrideTexture(texID);
+    }
+
+    @ModifyVariable(method = "renderBlockLadder(Lnet/minecraft/src/Block;III)Z", index = 6, at = @At(value = "INVOKE", target = "Lnet/minecraft/src/Block;getBlockBrightness(Lnet/minecraft/src/IBlockAccess;III)F", shift = At.Shift.BEFORE))
+    private int getLadderTextureID(int texID) {
+        return overrideTexture(texID);
+    }
+
+    @ModifyVariable(method = "renderBlockMinecartTrack(Lnet/minecraft/src/BlockRail;III)Z", index = 7, at = @At(value = "INVOKE", target = "Lnet/minecraft/src/BlockRail;getIsPowered()Z", shift = At.Shift.BEFORE))
+    private int getRailTextureID(int texID) {
         return overrideTexture(texID);
     }
 
