@@ -12,16 +12,16 @@ public class DirtSword {
 	}
 	public void Loader(InputStream inputStreamObj) {
 		//InputStream inputStreamObj = DirtSword.class.getResourceAsStream(File.separator + "DirtSwordModels" + File.separator + objPath);
-		ObjLoader load = new ObjLoader();
-		Obj loaded = load.loadModel(inputStreamObj);
+		OBJLoader load = new OBJLoader();
+		OBJ loaded = load.loadModel(inputStreamObj);
 		load.render(loaded);
 	}
 	public void Loader(InputStream inputStreamObj, Double x, Double y, Double z) {
 		//InputStream inputStreamObj = DirtSword.class.getResourceAsStream(File.separator + "DirtSwordModels" + File.separator + objPath);
-		ObjLoader load = new ObjLoader();
+		OBJLoader load = new OBJLoader();
 		GL11.glPushMatrix();
     	GL11.glTranslated(x, y, z);
-		Obj loaded = load.loadModel(inputStreamObj);
+		OBJ loaded = load.loadModel(inputStreamObj);
 		load.render(loaded);
 		GL11.glPopMatrix();
 		

@@ -12,7 +12,7 @@ import org.lwjgl.util.vector.Vector3f;
 import static org.lwjgl.opengl.GL11.GL_FLAT;
 import static org.lwjgl.opengl.GL11.GL_SMOOTH;
 
-public class Obj extends Object {
+public class OBJ extends Object {
 
     private final List<Vector3f> vertices;
     private final List<Vector2f> textureCoords;
@@ -20,7 +20,7 @@ public class Obj extends Object {
     private final List<Face> faces;
     private boolean enableSmoothShading;
 
-    public Obj(List<Vector3f> vertices, List<Vector2f> textureCoords,
+    public OBJ(List<Vector3f> vertices, List<Vector2f> textureCoords,
             List<Vector3f> normals, List<Face> faces, boolean enableSmoothShading) {
         super();
 
@@ -31,7 +31,7 @@ public class Obj extends Object {
         this.enableSmoothShading = enableSmoothShading;
     }
 
-    public Obj() {
+    public OBJ() {
         this(new ArrayList<Vector3f>(), new ArrayList<Vector2f>(),
                 new ArrayList<Vector3f>(), new ArrayList<Face>(), true);
     }

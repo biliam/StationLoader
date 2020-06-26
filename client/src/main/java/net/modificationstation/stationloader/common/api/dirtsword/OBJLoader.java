@@ -22,16 +22,16 @@ import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
  *
  * @author Matthew Van der Bijl
  */
-public class ObjLoader extends Object {
+public class OBJLoader extends Object {
 
     /**
      * Constructs a new <code>OBJLoader</code>.
      */
-    public ObjLoader() {
+    public OBJLoader() {
         super();
     }
 
-    public int createDisplayList(Obj model) {
+    public int createDisplayList(OBJ model) {
         int displayList = GL11.glGenLists(1);
         GL11.glNewList(displayList, GL_COMPILE);
         {
@@ -46,11 +46,11 @@ public class ObjLoader extends Object {
      *
      * @param model the <code>Obj</code> file to be rendered
      */
-    public void render(Obj model) {
+    public void render(OBJ model) {
         //GL11.glMaterialf(GL_FRONT, GL_SHININESS, 120);
         GL11.glBegin(GL_TRIANGLES);
         {
-            for (Obj.Face face : model.getFaces()) {
+            for (OBJ.Face face : model.getFaces()) {
                 Vector3f[] normals = {
                     model.getNormals().get(face.getNormals()[0] - 1),
                     model.getNormals().get(face.getNormals()[1] - 1),
@@ -95,7 +95,7 @@ public class ObjLoader extends Object {
      * @param stream the stream to be loaded
      * @return the loaded <code>Obj</code>
      */
-    public Obj loadModel(InputStream stream) {
+    public OBJ loadModel(InputStream stream) {
         return this.loadModel(new Scanner(stream));
     }
 
@@ -103,8 +103,8 @@ public class ObjLoader extends Object {
      * @param sc the <code>Obj</code> to be loaded
      * @return the loaded <code>Obj</code>
      */
-    public Obj loadModel(Scanner sc) {
-        Obj model = new Obj();
+    public OBJ loadModel(Scanner sc) {
+        OBJ model = new OBJ();
         while (sc.hasNextLine()) {
             String ln = sc.nextLine();
             if (ln == null || ln.equals("") || ln.startsWith("#")) {
@@ -132,7 +132,7 @@ public class ObjLoader extends Object {
                         ));
                         break;
                     case "f":
-                        model.getFaces().add(new Obj.Face(
+                        model.getFaces().add(new OBJ.Face(
                                 new int[]{
                                     Integer.parseInt(split[1].split("/")[0]),
                                     Integer.parseInt(split[2].split("/")[0]),
