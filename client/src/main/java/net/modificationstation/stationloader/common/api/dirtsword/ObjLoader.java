@@ -5,6 +5,7 @@ package net.modificationstation.stationloader.common.api.dirtsword;
 import java.io.File;
 import java.io.InputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 import org.lwjgl.opengl.GL11;
@@ -86,10 +87,10 @@ public class ObjLoader extends Object {
      * @return the loaded <code>Obj</code>
      * @throws java.io.FileNotFoundException thrown if the Obj file is not found
      */
-    public Obj loadModel(File file) throws FileNotFoundException {
+   /* public Obj loadModel(File file) throws FileNotFoundException {
         return this.loadModel(new Scanner(file));
     }
-
+*/
     /**
      * @param stream the stream to be loaded
      * @return the loaded <code>Obj</code>
